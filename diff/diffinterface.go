@@ -6,7 +6,6 @@ package diff
 
 import (
 	"bufio"
-	//"fmt"
 	"github.com/shuLhan/tekstus"
 	"io"
 	"os"
@@ -21,27 +20,16 @@ const (
 )
 
 /*
-OpenBufferedReader will open the file `f` using buffered reader.
-*/
-func OpenBufferedReader(f string) (r *bufio.Reader, e error) {
-	fd, e := os.Open(f)
-
-	if e == nil {
-		r = bufio.NewReader(fd)
-	}
-
-	return
-}
-
-/*
 ReadLines return lines in the file `f`.
 */
 func ReadLines(f string) (lines tekstus.Lines, e error) {
-	reader, e := OpenBufferedReader(f)
+	fd, e := os.Open(f)
 
 	if e != nil {
 		return
 	}
+
+	reader := bufio.NewReader(fd)
 
 	n := 1
 	for {
@@ -57,6 +45,8 @@ func ReadLines(f string) (lines tekstus.Lines, e error) {
 		lines = append(lines, tekstus.Line{N: n, V: line})
 		n++
 	}
+
+	fd.Close()
 
 	return lines, nil
 }
