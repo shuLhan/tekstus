@@ -19,6 +19,12 @@ const (
 	LevelWords
 )
 
+const (
+	// DefMatchLen minimum number of bytes used for searching the next
+	// matched chunk in line.
+	DefMatchLen = 5
+)
+
 /*
 ReadLines return lines in the file `f`.
 */
@@ -173,7 +179,6 @@ func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 
 		// we found x but y is missing, its mean addition in new text.
 		if foundx && !foundy {
-			//fmt.Printf(">>> foundx at %d while y %d\n", xaty, y)
 			for ; y < xaty && y < newlen; y++ {
 				diffs.PushAdd(newlines[y])
 				newlines[y].V = nil
@@ -218,5 +223,260 @@ func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 		newlines[y].V = nil
 	}
 
+	if difflevel == LevelWords {
+		// Process each changes to find modified chunkes.
+		for x, change := range diffs.Changes {
+			adds, dels := Lines(change.Old.V, change.New.V, 0, 0)
+			diffs.Changes[x].Adds = adds
+			diffs.Changes[x].Dels = dels
+		}
+	}
+
 	return diffs, e
+}
+
+/*
+Lines given two similar lines, find and return the differences (additions and
+deletion) between them.
+
+Case 1: addition on new or deletion on old.
+
+	old: 00000
+	new: 00000111
+
+or
+
+	old: 00000111
+	new: 00000
+
+Case 2: addition on new line
+
+	old: 000000
+	new: 0001000
+
+Case 3: deletion on old line (reverse of case 2)
+
+	old: 0001000
+	new: 000000
+
+Case 4: change happened in the beginning
+
+	old: 11000
+	new: 22000
+
+Case 5: both changed
+
+	old: 0001000
+	new: 0002000
+
+
+*/
+func Lines(old, new []byte, atx, aty int) (adds, dels tekstus.Chunks) {
+	oldlen := len(old)
+	newlen := len(new)
+
+	minlen := 0
+	if oldlen < newlen {
+		minlen = oldlen
+	} else {
+		minlen = newlen
+	}
+
+	// Find the position of unmatched byte from the beginning.
+	x, y := 0, 0
+	for ; x < minlen; x++ {
+		if old[x] != new[x] {
+			break
+		}
+	}
+	y = x
+
+	// Case 1: Check if addition or deletion is at the end.
+	if x == minlen {
+		if oldlen < newlen {
+			v := new[y:]
+			adds = append(adds, tekstus.Chunk{StartAt: atx + y, V: v})
+		} else {
+			v := old[x:]
+			dels = append(dels, tekstus.Chunk{StartAt: atx + x, V: v})
+		}
+		return
+	}
+
+	// Find the position of unmatched byte from the end
+	xend := oldlen - 1
+	yend := newlen - 1
+
+	for xend >= x && yend >= y {
+		if old[xend] != new[yend] {
+			break
+		}
+		xend--
+		yend--
+	}
+
+	// Case 2: addition in new line.
+	if x == xend+1 {
+		v := new[y : yend+1]
+		adds = append(adds, tekstus.Chunk{StartAt: aty + y, V: v})
+		return
+	}
+
+	// Case 3: deletion in old line.
+	if y == yend+1 {
+		v := old[x : xend+1]
+		dels = append(dels, tekstus.Chunk{StartAt: atx + x, V: v})
+		return
+	}
+
+	// Calculate possible match len.
+	// After we found similar bytes in the beginning and end of line, now
+	// we have `n` number of bytes left in old and new.
+	oldleft := old[x : xend+1]
+	newleft := new[y : yend+1]
+	oldleftlen := len(oldleft)
+	newleftlen := len(newleft)
+
+	// Get minimal token to search in the new left over.
+	minlen = DefMatchLen
+	if oldleftlen < DefMatchLen {
+		minlen = oldleftlen
+	}
+	xtoken := oldleft[:minlen]
+
+	xaty := tekstus.FindToken(xtoken, newleft)
+
+	// Get miniminal token to search in the old left over.
+	minlen = DefMatchLen
+	if newleftlen < DefMatchLen {
+		minlen = newleftlen
+	}
+	ytoken := newleft[:minlen]
+
+	yatx := tekstus.FindToken(ytoken, oldleft)
+
+	// Case 4:
+	// We did not find matching token of x in y, its mean the some chunk
+	// in x and y has been replaced.
+	if xaty < 0 && yatx < 0 {
+		addsleft, delsleft := searchForward(atx, aty, &x, &y, &oldleft,
+			&newleft)
+
+		if len(addsleft) > 0 {
+			adds = append(adds, addsleft...)
+		}
+		if len(delsleft) > 0 {
+			dels = append(dels, delsleft...)
+		}
+
+		// Check for possible empty left
+		if len(oldleft) == 0 {
+			if len(newleft) > 0 {
+				adds = append(adds, tekstus.Chunk{
+					StartAt: atx + x,
+					V:       newleft,
+				})
+			}
+			return
+		}
+		if len(newleft) == 0 {
+			if len(oldleft) > 0 {
+				dels = append(dels, tekstus.Chunk{
+					StartAt: aty + y,
+					V:       oldleft,
+				})
+			}
+			return
+		}
+	}
+
+	// Case 5: is combination of case 2 and 3.
+	// Case 2: We found x token at y: xaty. Previous byte before that must
+	// be an addition.
+	if xaty >= 0 {
+		v := new[y : y+xaty]
+		adds = append(adds, tekstus.Chunk{StartAt: aty + y, V: v})
+		newleft = new[y+xaty : yend+1]
+	} else {
+		if yatx >= 0 {
+			// Case 3: We found y token at x: yatx. Previous byte before that must
+			// be a deletion.
+			v := old[x : x+yatx]
+			dels = append(dels, tekstus.Chunk{StartAt: atx + x, V: v})
+			oldleft = old[x+yatx : xend+1]
+		}
+	}
+
+	addsleft, delsleft := Lines(oldleft, newleft, atx+x, aty+y)
+
+	if len(addsleft) > 0 {
+		adds = append(adds, addsleft...)
+	}
+	if len(delsleft) > 0 {
+		dels = append(dels, delsleft...)
+	}
+
+	return
+}
+
+func searchForward(atx, aty int, x, y *int, oldleft, newleft *[]byte) (
+	adds, dels tekstus.Chunks,
+) {
+	oldleftlen := len(*oldleft)
+	newleftlen := len(*newleft)
+
+	minlen := DefMatchLen
+	if oldleftlen < minlen {
+		minlen = oldleftlen
+	}
+
+	// Loop through old line to find matching token
+	xaty := -1
+	xx := 1
+	for ; xx < oldleftlen-minlen; xx++ {
+		token := (*oldleft)[xx : xx+minlen]
+
+		xaty = tekstus.FindToken(token, *newleft)
+		if xaty > 0 {
+			break
+		}
+	}
+
+	minlen = DefMatchLen
+	if newleftlen < minlen {
+		minlen = newleftlen
+	}
+
+	yatx := -1
+	yy := 1
+	for ; yy < newleftlen-minlen; yy++ {
+		token := (*newleft)[yy : yy+minlen]
+
+		yatx = tekstus.FindToken(token, *oldleft)
+		if yatx > 0 {
+			break
+		}
+	}
+
+	if xaty < 0 && yatx < 0 {
+		// still no token found, means whole chunk has been replaced.
+		dels = append(dels, tekstus.Chunk{StartAt: atx + *x, V: *oldleft})
+		adds = append(adds, tekstus.Chunk{StartAt: aty + *y, V: *newleft})
+		*oldleft = []byte{}
+		*newleft = []byte{}
+		return adds, dels
+	}
+
+	// Some chunk has been replaced.
+	v := (*oldleft)[:xx]
+	dels = append(dels, tekstus.Chunk{StartAt: atx + *x, V: v})
+	*oldleft = (*oldleft)[xx:]
+	*x = *x + xx
+
+	v = (*newleft)[:yy]
+	adds = append(adds, tekstus.Chunk{StartAt: aty + *y, V: v})
+	*newleft = (*newleft)[yy:]
+	*y = *y + yy
+
+	return adds, dels
 }

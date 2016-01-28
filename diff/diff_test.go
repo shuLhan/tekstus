@@ -5,6 +5,7 @@
 package diff_test
 
 import (
+	"github.com/shuLhan/tekstus"
 	"github.com/shuLhan/tekstus/diff"
 	"testing"
 )
@@ -126,14 +127,182 @@ func TestDiffFilesLevelLine(t *testing.T) {
 }
 
 func TestDiffFilesLevelWords(t *testing.T) {
-	t.SkipNow()
-	oldrev := "../testdata/Top_Gear_Series_14.old"
-	newrev := "../testdata/Top_Gear_Series_14.new"
+	exp_adds := [][]string{
+		[]string{"pharaoh"},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"|"},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"|"},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{"| "},
+		[]string{" name=\"Kitchen, p.423\""},
+		[]string{" name=\"Payraudeau, BIFAO 108, p.294\"", "—", "—",
+			" name=\"", "\"/",
+		},
+		[]string{" name=\"Kitchen, p.290\"", " name=\"", "\"/", "–",
+			"—", "—",
+		},
+		[]string{"—"},
+		[]string{
+			"—",
+			" name=\"Krauss, DE 62, pp.43-48\"",
+			" name=\"",
+			"\"/",
+		},
+		[]string{"—", "—", "—", " name=\"", "\"/", "—"},
+		[]string{"&nbsp;"},
+	}
 
-	testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+	exp_dels := [][]string{
+		[]string{"Pharaoh ", "| "},
+		[]string{"   ", " ", " |"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "  |"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", " |"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", "|"},
+		[]string{"   ", " ", " |"},
+		[]string{},
+		[]string{"--", "--", ">", "</ref"},
+		[]string{">", "</ref", "-", "--", "--"},
+		[]string{"--"},
+		[]string{"--", ">", "</ref"},
+		[]string{"--", "--", "--", ">", "</ref", "--"},
+		[]string{},
+	}
+
+	oldrev := "../testdata/text01.old"
+	newrev := "../testdata/text01.new"
+
+	diffs := testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+
+	compareChunks(t, diffs.Changes[0].Adds, diffs.Changes[0].Dels,
+		exp_adds[26], exp_dels[26])
+
+	oldrev = "../testdata/text02.old"
+	newrev = "../testdata/text02.new"
+
+	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+	compareChunks(t, diffs.Changes[0].Adds, diffs.Changes[0].Dels,
+		exp_adds[27], exp_dels[27])
+
+	oldrev = "../testdata/Top_Gear_Series_14.old"
+	newrev = "../testdata/Top_Gear_Series_14.new"
+
+	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+	compareChunks(t, diffs.Changes[0].Adds, diffs.Changes[0].Dels,
+		[]string{","},
+		[]string{"alse "},
+	)
 
 	oldrev = "../testdata/Psusennes_II.old"
 	newrev = "../testdata/Psusennes_II.new"
 
-	testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+	for x, change := range diffs.Changes {
+		if x >= len(exp_adds) {
+			break
+		}
+		compareChunks(t, change.Adds, change.Dels, exp_adds[x],
+			exp_dels[x])
+	}
+}
+
+func compareChunks(t *testing.T, adds, dels tekstus.Chunks,
+	exp_adds, exp_dels []string,
+) {
+	if len(adds) != len(exp_adds) {
+		t.Fatalf("Expecting adds '%v' got '%v'", exp_adds, adds)
+	}
+	for x, add := range adds {
+		addv := string(add.V)
+		if addv != exp_adds[x] {
+			t.Fatalf("[%d] Expecting add '%v' got '%v'", x,
+				exp_adds[x], addv)
+		}
+	}
+
+	if len(dels) != len(exp_dels) {
+		t.Fatalf("Expecting deletes '%v' got '%v'", exp_dels, dels)
+	}
+	for x, del := range dels {
+		delv := string(del.V)
+		if delv != exp_dels[x] {
+			t.Fatalf("[%d] Expecting delete '%v' got '%v'", x,
+				exp_dels[x], delv)
+		}
+	}
+}
+
+func testDiffLines(t *testing.T, old, new tekstus.Line,
+	exp_adds, exp_dels []string) {
+
+	adds, dels := diff.Lines(old.V, new.V, 0, 0)
+
+	compareChunks(t, adds, dels, exp_adds, exp_dels)
+}
+
+func TestDiffLines(t *testing.T) {
+	old := tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
+	new := tekstus.Line{N: 0, V: []byte("lorem all ipsum")}
+
+	exp_adds := [][]string{
+		[]string{"all "},
+	}
+	exp_dels := [][]string{
+		[]string{" dolmet"},
+	}
+
+	testDiffLines(t, old, new, exp_adds[0], exp_dels[0])
+
+	old = tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
+	new = tekstus.Line{N: 0, V: []byte("lorem ipsum")}
+
+	testDiffLines(t, old, new, []string{}, exp_dels[0])
+
+	old = tekstus.Line{N: 0, V: []byte("lorem ipsum")}
+	new = tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
+
+	testDiffLines(t, old, new, exp_dels[0], []string{})
+
+	old = tekstus.Line{N: 0, V: []byte("{{Pharaoh Infobox |")}
+	new = tekstus.Line{N: 0, V: []byte("{{Infobox pharaoh")}
+
+	testDiffLines(t, old, new, []string{"pharaoh"},
+		[]string{"Pharaoh ", "|"})
 }
