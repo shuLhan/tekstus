@@ -65,8 +65,6 @@ func compareLineNumber(t *testing.T, diffs diff.Data, exp DiffExpect) {
 }
 
 func TestDiffFilesLevelLine(t *testing.T) {
-	oldrev := "../testdata/328391343.txt"
-	newrev := "../testdata/328391582.txt"
 	diffsExpects := DiffExpects{
 		{[]int{}, []int{}, []int{48}},
 		{[]int{}, []int{}, []int{48}},
@@ -88,6 +86,9 @@ func TestDiffFilesLevelLine(t *testing.T) {
 		{[]int{5, 6}, []int{}, []int{}},
 	}
 
+	oldrev := "../testdata/Top_Gear_Series_14.old"
+	newrev := "../testdata/Top_Gear_Series_14.new"
+
 	diffs := testDiffFiles(t, oldrev, newrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[0])
 
@@ -95,8 +96,8 @@ func TestDiffFilesLevelLine(t *testing.T) {
 	diffs = testDiffFiles(t, newrev, oldrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[1])
 
-	oldrev = "../testdata/327585467.txt"
-	newrev = "../testdata/327607921.txt"
+	oldrev = "../testdata/List_of_United_Nations.old"
+	newrev = "../testdata/List_of_United_Nations.new"
 
 	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[2])
@@ -105,8 +106,8 @@ func TestDiffFilesLevelLine(t *testing.T) {
 	diffs = testDiffFiles(t, newrev, oldrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[3])
 
-	oldrev = "../testdata/314955274.txt"
-	newrev = "../testdata/327191082.txt"
+	oldrev = "../testdata/Psusennes_II.old"
+	newrev = "../testdata/Psusennes_II.new"
 
 	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[4])
@@ -122,18 +123,17 @@ func TestDiffFilesLevelLine(t *testing.T) {
 
 	diffs = testDiffFiles(t, newrev, oldrev, diff.LevelLines)
 	compareLineNumber(t, diffs, diffsExpects[7])
-
 }
 
 func TestDiffFilesLevelWords(t *testing.T) {
 	t.SkipNow()
-	oldrev := "../testdata/328391343.txt"
-	newrev := "../testdata/328391582.txt"
+	oldrev := "../testdata/Top_Gear_Series_14.old"
+	newrev := "../testdata/Top_Gear_Series_14.new"
 
 	testDiffFiles(t, oldrev, newrev, diff.LevelWords)
 
-	oldrev = "../testdata/327585467.txt"
-	newrev = "../testdata/327607921.txt"
+	oldrev = "../testdata/Psusennes_II.old"
+	newrev = "../testdata/Psusennes_II.new"
 
 	testDiffFiles(t, oldrev, newrev, diff.LevelWords)
 }
