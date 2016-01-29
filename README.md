@@ -4,4 +4,16 @@
 _textus_ is a latin word for _textual_, meaning of or relating to a text or
 texts.
 
-`textus` is a Go library for working with text.
+Its pronounciation is _tek-stus_, therefore this repository is named, also
+because the word textus is already used by a company and the word _tex_ is
+more related to LaTeX.
+
+`tekstus` is a Go library for working with text.
+
+# Features
+
+* Comparing two file, diff-ing, with line level diff or words level.
+* Working with set of string,
+  * comparing two set of string without regard to their order,
+  * partitioning a set of string or strings,
+  * joining string into each element in set of string.
