@@ -127,83 +127,83 @@ func TestDiffFilesLevelLine(t *testing.T) {
 }
 
 func TestDiffFilesLevelWords(t *testing.T) {
-	exp_adds := [][]string{
-		[]string{"pharaoh"},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"|"},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"|"},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{"| "},
-		[]string{" name=\"Kitchen, p.423\""},
-		[]string{" name=\"Payraudeau, BIFAO 108, p.294\"", "—", "—",
-			" name=\"", "\"/",
+	exp_adds := tekstus.ListStrings{
+		tekstus.Strings{"pharaoh"},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"|"},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"|"},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{"| "},
+		tekstus.Strings{" name=\"Kitchen, p.423\""},
+		tekstus.Strings{" name=\"Payraudeau, BIFAO 108, p.294\"", "—",
+			"—", " name=\"", "\"/",
 		},
-		[]string{" name=\"Kitchen, p.290\"", " name=\"", "\"/", "–",
-			"—", "—",
+		tekstus.Strings{" name=\"Kitchen, p.290\"", " name=\"", "\"/",
+			"–", "—", "—",
 		},
-		[]string{"—"},
-		[]string{
+		tekstus.Strings{"—"},
+		tekstus.Strings{
 			"—",
 			" name=\"Krauss, DE 62, pp.43-48\"",
 			" name=\"",
 			"\"/",
 		},
-		[]string{"—", "—", "—", " name=\"", "\"/", "—"},
-		[]string{"&nbsp;"},
+		tekstus.Strings{"—", "—", "—", " name=\"", "\"/", "—"},
+		tekstus.Strings{"&nbsp;"},
 	}
 
-	exp_dels := [][]string{
-		[]string{"Pharaoh ", "| "},
-		[]string{"   ", " ", " |"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "  |"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", " |"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", "|"},
-		[]string{"   ", " ", " |"},
-		[]string{},
-		[]string{"--", "--", ">", "</ref"},
-		[]string{">", "</ref", "-", "--", "--"},
-		[]string{"--"},
-		[]string{"--", ">", "</ref"},
-		[]string{"--", "--", "--", ">", "</ref", "--"},
-		[]string{},
+	exp_dels := tekstus.ListStrings{
+		tekstus.Strings{"Pharaoh ", "| "},
+		tekstus.Strings{"   ", " ", " |"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "  |"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", " |"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", "|"},
+		tekstus.Strings{"   ", " ", " |"},
+		tekstus.Strings{},
+		tekstus.Strings{"--", "--", ">", "</ref"},
+		tekstus.Strings{">", "</ref", "-", "--", "--"},
+		tekstus.Strings{"--"},
+		tekstus.Strings{"--", ">", "</ref"},
+		tekstus.Strings{"--", "--", "--", ">", "</ref", "--"},
+		tekstus.Strings{},
 	}
 
 	oldrev := "../testdata/text01.old"
@@ -226,8 +226,8 @@ func TestDiffFilesLevelWords(t *testing.T) {
 
 	diffs = testDiffFiles(t, oldrev, newrev, diff.LevelWords)
 	compareChunks(t, diffs.Changes[0].Adds, diffs.Changes[0].Dels,
-		[]string{","},
-		[]string{"alse "},
+		tekstus.Strings{","},
+		tekstus.Strings{"alse "},
 	)
 
 	oldrev = "../testdata/Psusennes_II.old"
@@ -244,7 +244,7 @@ func TestDiffFilesLevelWords(t *testing.T) {
 }
 
 func compareChunks(t *testing.T, adds, dels tekstus.Chunks,
-	exp_adds, exp_dels []string,
+	exp_adds, exp_dels tekstus.Strings,
 ) {
 	if len(adds) != len(exp_adds) {
 		t.Fatalf("Expecting adds '%v' got '%v'", exp_adds, adds)
@@ -270,7 +270,7 @@ func compareChunks(t *testing.T, adds, dels tekstus.Chunks,
 }
 
 func testDiffLines(t *testing.T, old, new tekstus.Line,
-	exp_adds, exp_dels []string) {
+	exp_adds, exp_dels tekstus.Strings) {
 
 	adds, dels := diff.Lines(old.V, new.V, 0, 0)
 
@@ -281,11 +281,11 @@ func TestDiffLines(t *testing.T) {
 	old := tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
 	new := tekstus.Line{N: 0, V: []byte("lorem all ipsum")}
 
-	exp_adds := [][]string{
-		[]string{"all "},
+	exp_adds := tekstus.ListStrings{
+		tekstus.Strings{"all "},
 	}
-	exp_dels := [][]string{
-		[]string{" dolmet"},
+	exp_dels := tekstus.ListStrings{
+		tekstus.Strings{" dolmet"},
 	}
 
 	testDiffLines(t, old, new, exp_adds[0], exp_dels[0])
@@ -293,16 +293,16 @@ func TestDiffLines(t *testing.T) {
 	old = tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
 	new = tekstus.Line{N: 0, V: []byte("lorem ipsum")}
 
-	testDiffLines(t, old, new, []string{}, exp_dels[0])
+	testDiffLines(t, old, new, tekstus.Strings{}, exp_dels[0])
 
 	old = tekstus.Line{N: 0, V: []byte("lorem ipsum")}
 	new = tekstus.Line{N: 0, V: []byte("lorem ipsum dolmet")}
 
-	testDiffLines(t, old, new, exp_dels[0], []string{})
+	testDiffLines(t, old, new, exp_dels[0], tekstus.Strings{})
 
 	old = tekstus.Line{N: 0, V: []byte("{{Pharaoh Infobox |")}
 	new = tekstus.Line{N: 0, V: []byte("{{Infobox pharaoh")}
 
-	testDiffLines(t, old, new, []string{"pharaoh"},
-		[]string{"Pharaoh ", "|"})
+	testDiffLines(t, old, new, tekstus.Strings{"pharaoh"},
+		tekstus.Strings{"Pharaoh ", "|"})
 }
