@@ -1,5 +1,5 @@
-[![GoDoc](https://godoc.org/github.com/shuLhan/textus?status.svg)]
-(https://godoc.org/github.com/shuLhan/textus)
+[![GoDoc](https://godoc.org/github.com/shuLhan/tekstus?status.svg)]
+(https://godoc.org/github.com/shuLhan/tekstus)
 
 _textus_ is a latin word for _textual_, meaning of or relating to a text or
 texts.
