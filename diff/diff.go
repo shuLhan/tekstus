@@ -54,7 +54,7 @@ GetAllAdds return chunks of additions including in line changes.
 */
 func (diffs *Data) GetAllAdds() (chunks tekstus.Chunks) {
 	for _, add := range diffs.Adds {
-		chunks = append(chunks, tekstus.Chunk{0, add.V})
+		chunks = append(chunks, tekstus.Chunk{StartAt: 0, V: add.V})
 	}
 	chunks = append(chunks, diffs.Changes.GetAllAdds()...)
 	return
@@ -65,7 +65,7 @@ GetAllDels return chunks of deletions including in line changes.
 */
 func (diffs *Data) GetAllDels() (chunks tekstus.Chunks) {
 	for _, del := range diffs.Dels {
-		chunks = append(chunks, tekstus.Chunk{0, del.V})
+		chunks = append(chunks, tekstus.Chunk{StartAt: 0, V: del.V})
 	}
 	chunks = append(chunks, diffs.Changes.GetAllDels()...)
 	return
