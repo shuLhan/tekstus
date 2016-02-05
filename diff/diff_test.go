@@ -241,6 +241,22 @@ func TestDiffFilesLevelWords(t *testing.T) {
 		compareChunks(t, change.Adds, change.Dels, exp_adds[x],
 			exp_dels[x])
 	}
+
+	allDels := diffs.Changes.GetAllDels()
+	got := allDels.Join("")
+	exp := exp_dels.Join("", "")
+
+	if exp != got {
+		t.Fatalf("Expecting %s got %s\n", exp, got)
+	}
+
+	allAdds := diffs.Changes.GetAllAdds()
+	got = allAdds.Join("")
+	exp = exp_adds.Join("", "")
+
+	if exp != got {
+		t.Fatalf("Expecting %s got %s\n", exp, got)
+	}
 }
 
 func compareChunks(t *testing.T, adds, dels tekstus.Chunks,
