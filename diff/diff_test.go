@@ -5,6 +5,7 @@
 package diff_test
 
 import (
+	"fmt"
 	"github.com/shuLhan/tekstus"
 	"github.com/shuLhan/tekstus/diff"
 	"testing"
@@ -323,27 +324,61 @@ func TestDiffLines(t *testing.T) {
 		tekstus.Strings{"Pharaoh ", "|"})
 }
 
-func TestDiffFilesLevelWords2(t *testing.T) {
-	oldrev := "../testdata/peeps.old"
-	newrev := "../testdata/peeps.new"
-
+func diffLevelWords(t *testing.T, oldrev, newrev, expdels, expadds string,
+	debug bool) {
 	diffs := testDiffFiles(t, oldrev, newrev, diff.LevelWords)
 
+	if debug {
+		fmt.Printf(">>> diffs:\n%v", diffs)
+	}
+
 	allDels := diffs.GetAllDels()
-	exp := ""
 	got := allDels.Join("")
 
-	if exp != got {
-		t.Fatalf("Expecting '%s' got '%s'\n", exp, got)
+	if !debug && expdels != got {
+		t.Fatalf("Expecting '%s' got '%s'\n", expdels, got)
 	}
 
 	allAdds := diffs.GetAllAdds()
-	exp = "\r\n\r\n== Definitionz!!!?? ==\r\n" +
-		"A peep is a person involved in a gang or posse, who which blows.\r\n" +
-		"\r\n"
 	got = allAdds.Join("")
 
-	if exp != got {
-		t.Fatalf("Expecting '%s' got '%s'\n", exp, got)
+	if !debug && expadds != got {
+		t.Fatalf("Expecting '%s' got '%s'\n", expadds, got)
 	}
+}
+
+func TestDiffFilesLevelWords2(t *testing.T) {
+	oldrev := "../testdata/peeps.old"
+	newrev := "../testdata/peeps.new"
+	expdels := ""
+	expadds := "\r\n\r\n== Definitionz!!!?? ==\r\n" +
+		"A peep is a person involved in a gang or posse, who which blows.\r\n" +
+		"\r\n"
+
+	diffLevelWords(t, oldrev, newrev, expdels, expadds, false)
+}
+
+func TestBytesRatio(t *testing.T) {
+	old := "# [[...Baby One More Time (song)|...Baby One More Time]]"
+	new := "# \"[[...Baby One More Time (song)|...Baby One More Time]]\""
+
+	ratio, _, _ := diff.BytesRatio([]byte(old), []byte(new),
+		diff.DefMatchLen)
+
+	newlen := len(new)
+	expMatch := newlen - 2
+	expRatio := float32(expMatch) / float32(newlen)
+
+	if expRatio != ratio {
+		t.Fatalf("Expecting ration %f got %f\n", expRatio, ratio)
+	}
+}
+
+func TestDiffFilesLevelWords3(t *testing.T) {
+	oldrev := "../testdata/the_singles_collection.old"
+	newrev := "../testdata/the_singles_collection.new"
+	expdels := "\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\""
+	expadds := "\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\""
+
+	diffLevelWords(t, oldrev, newrev, expdels, expadds, false)
 }

@@ -24,6 +24,9 @@ const (
 	// DefMatchLen minimum number of bytes used for searching the next
 	// matched chunk in line.
 	DefMatchLen = 5
+	// DefMatchRatio define default minimum match ratio to be considered as
+	// change.
+	DefMatchRatio = 0.7
 )
 
 /*
@@ -89,6 +92,116 @@ func Bytes(oldb, newb []byte) (equal bool) {
 	}
 
 	return false
+}
+
+/*
+BytesRatio compare two slice of bytes and return ratio of matching bytes.
+The ratio in in range of 0.0 to 1.0, where 1.0 if both are similar, and 0.0 if
+no matchs even found.
+`minTokenLen` define the minimum length of token for searching in both of
+slice.
+*/
+func BytesRatio(old, new []byte, minTokenLen int) (
+	ratio float32, m int, maxlen int,
+) {
+	x, y := 0, 0
+
+	oldlen := len(old)
+	newlen := len(new)
+	minlen := oldlen
+	maxlen = newlen
+	if newlen < oldlen {
+		minlen = newlen
+		maxlen = oldlen
+	}
+
+	if minTokenLen < 0 {
+		minTokenLen = DefMatchLen
+	}
+
+	for {
+		// Count matching bytes from beginning of slice.
+		for x < minlen {
+			if old[x] != new[y] {
+				break
+			}
+			m++
+			x++
+			y++
+		}
+
+		if x == minlen {
+			// All bytes is matched but probably some trailing in
+			// one of them.
+			break
+		}
+
+		// Count matching bytes from end of slice
+		xend := oldlen - 1
+		yend := newlen - 1
+
+		for xend >= x && yend >= y {
+			if old[xend] != new[yend] {
+				break
+			}
+			m++
+			xend--
+			yend--
+		}
+
+		// One of the line have changes in the middle.
+		if xend == x || yend == y {
+			break
+		}
+
+		// Cut the matching bytes
+		old = old[x : xend+1]
+		new = new[y : yend+1]
+		oldlen = len(old)
+		newlen = len(new)
+
+		// Get minimal token to search in the new left over.
+		minlen = minTokenLen
+		if oldlen < minlen {
+			minlen = oldlen
+		}
+
+		// Search old token in new, chunk by chunk.
+		x = 0
+		y = -1
+		max := oldlen - minlen
+		for ; x < max; x++ {
+			token := old[x : x+minlen]
+
+			y = tekstus.FindToken(token, new)
+			if y > 0 {
+				break
+			}
+		}
+
+		if y < 0 {
+			// We did not found anything.
+			break
+		}
+
+		// Cut the changes
+		old = old[x:]
+		new = new[y:]
+		oldlen = len(old)
+		newlen = len(new)
+
+		minlen = oldlen
+		if newlen < minlen {
+			minlen = newlen
+		}
+
+		x, y = 0, 0
+		// start again from begining...
+	}
+
+	ratio = float32(m) / float32(maxlen)
+
+	return ratio, m, maxlen
 }
 
 /*
@@ -181,6 +294,20 @@ func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 		if newtrimlen <= 0 {
 			diffs.PushAdd(newlines[y])
 			newlines[y].V = nil
+			y++
+			continue
+		}
+
+		ratio, _, _ := BytesRatio(oldlines[x].V, newlines[y].V,
+			DefMatchLen)
+
+		if ratio > DefMatchRatio {
+			// Ratio of similar bytes is higher than minimum
+			// expectation. So, it must be changes
+			diffs.PushChange(oldlines[x], newlines[y])
+			oldlines[x].V = nil
+			newlines[y].V = nil
+			x++
 			y++
 			continue
 		}
