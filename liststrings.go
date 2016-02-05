@@ -4,6 +4,10 @@
 
 package tekstus
 
+import (
+	"strings"
+)
+
 /*
 ListStrings is for working with list of set of string.
 Each elemen of slice is in the form of [["a"],["b","c"],...]
@@ -42,4 +46,21 @@ func (lss *ListStrings) IsEqual(b ListStrings) bool {
 		}
 	}
 	return true
+}
+
+/*
+Join list of slice of string using `lsep` as separator between list items and
+`ssep` for element in each slice.
+*/
+func (lss *ListStrings) Join(lsep string, ssep string) (s string) {
+	lsslen := len(*lss) - 1
+
+	for x, ls := range *lss {
+		s += strings.Join(ls, ssep)
+
+		if x < lsslen {
+			s += lsep
+		}
+	}
+	return
 }
