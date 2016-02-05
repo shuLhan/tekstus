@@ -18,11 +18,6 @@ type Chunk struct {
 }
 
 /*
-Chunks represent a set of chunk.
-*/
-type Chunks []Chunk
-
-/*
 String return formatted data.
 */
 func (chunk Chunk) String() string {
