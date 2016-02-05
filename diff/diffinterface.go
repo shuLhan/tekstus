@@ -6,6 +6,7 @@ package diff
 
 import (
 	"bufio"
+	"bytes"
 	"github.com/shuLhan/tekstus"
 	"io"
 	"os"
@@ -148,6 +149,38 @@ func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 			oldlines[x].V = nil
 			newlines[y].V = nil
 			x++
+			y++
+			continue
+		}
+
+		// Check for whitespace changes
+		oldlinetrim := bytes.TrimSpace(oldlines[x].V)
+		newlinetrim := bytes.TrimSpace(newlines[y].V)
+		oldtrimlen := len(oldlinetrim)
+		newtrimlen := len(newlinetrim)
+
+		// Both are empty, probably one of them is changing
+		if oldtrimlen <= 0 && newtrimlen <= 0 {
+			diffs.PushChange(oldlines[x], newlines[y])
+			oldlines[x].V = nil
+			newlines[y].V = nil
+			x++
+			y++
+			continue
+		}
+
+		// Old is empty or contain only whitespaces.
+		if oldtrimlen <= 0 {
+			diffs.PushDel(oldlines[x])
+			oldlines[x].V = nil
+			x++
+			continue
+		}
+
+		// New is empty or contain only whitespaces.
+		if newtrimlen <= 0 {
+			diffs.PushAdd(newlines[y])
+			newlines[y].V = nil
 			y++
 			continue
 		}

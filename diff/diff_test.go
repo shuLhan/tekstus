@@ -322,3 +322,28 @@ func TestDiffLines(t *testing.T) {
 	testDiffLines(t, old, new, tekstus.Strings{"pharaoh"},
 		tekstus.Strings{"Pharaoh ", "|"})
 }
+
+func TestDiffFilesLevelWords2(t *testing.T) {
+	oldrev := "../testdata/peeps.old"
+	newrev := "../testdata/peeps.new"
+
+	diffs := testDiffFiles(t, oldrev, newrev, diff.LevelWords)
+
+	allDels := diffs.GetAllDels()
+	exp := ""
+	got := allDels.Join("")
+
+	if exp != got {
+		t.Fatalf("Expecting '%s' got '%s'\n", exp, got)
+	}
+
+	allAdds := diffs.GetAllAdds()
+	exp = "\r\n\r\n== Definitionz!!!?? ==\r\n" +
+		"A peep is a person involved in a gang or posse, who which blows.\r\n" +
+		"\r\n"
+	got = allAdds.Join("")
+
+	if exp != got {
+		t.Fatalf("Expecting '%s' got '%s'\n", exp, got)
+	}
+}
