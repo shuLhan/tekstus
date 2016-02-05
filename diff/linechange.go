@@ -20,11 +20,6 @@ type LineChange struct {
 }
 
 /*
-LineChanges represet a set of change in text.
-*/
-type LineChanges []LineChange
-
-/*
 NewLineChange create a pointer to new LineChange object.
 */
 func NewLineChange(old, new tekstus.Line) *LineChange {
