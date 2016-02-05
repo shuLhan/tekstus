@@ -50,6 +50,28 @@ func (diffs *Data) PushChange(old, new tekstus.Line) {
 }
 
 /*
+GetAllAdds return chunks of additions including in line changes.
+*/
+func (diffs *Data) GetAllAdds() (chunks tekstus.Chunks) {
+	for _, add := range diffs.Adds {
+		chunks = append(chunks, tekstus.Chunk{0, add.V})
+	}
+	chunks = append(chunks, diffs.Changes.GetAllAdds()...)
+	return
+}
+
+/*
+GetAllDels return chunks of deletions including in line changes.
+*/
+func (diffs *Data) GetAllDels() (chunks tekstus.Chunks) {
+	for _, del := range diffs.Dels {
+		chunks = append(chunks, tekstus.Chunk{0, del.V})
+	}
+	chunks = append(chunks, diffs.Changes.GetAllDels()...)
+	return
+}
+
+/*
 String return formatted data.
 */
 func (diffs Data) String() (s string) {
