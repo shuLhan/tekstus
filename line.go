@@ -29,39 +29,6 @@ func NewLine(n int, v []byte) *Line {
 }
 
 /*
-FindToken return the first index of matched token in line.
-If not found it will return -1.
-*/
-func FindToken(token, line []byte) (at int) {
-	y := 0
-	tokenlen := len(token)
-	linelen := len(line)
-
-	at = -1
-	for x := 0; x < linelen; x++ {
-		if line[x] == token[y] {
-			if y == 0 {
-				at = x
-			}
-			y++
-			if y == tokenlen {
-				// we found it!
-				return
-			}
-		} else {
-			// reset back
-			y = 0
-			at = -1
-		}
-	}
-	// x run out before y
-	if y < tokenlen {
-		at = -1
-	}
-	return
-}
-
-/*
 String return formatted data.
 */
 func (line Line) String() string {
