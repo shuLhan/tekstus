@@ -40,6 +40,27 @@ func FindToken(token, line []byte, startat int) (at int) {
 }
 
 /*
+TokenMatchForward return true if `line` at index `p` match with `token`,
+otherwise return false.
+*/
+func TokenMatchForward(token, line []byte, p int) bool {
+	linelen := len(line)
+	tokenlen := len(token)
+
+	if p+tokenlen > linelen {
+		return false
+	}
+
+	for _, v := range token {
+		if v != line[p] {
+			return false
+		}
+		p++
+	}
+	return true
+}
+
+/*
 EncapsulateToken will find `token` in `line` and capsulating it with bytes
 from `leftcap` and `rightcap`.
 If no token is found, it will return the same line with false status.
