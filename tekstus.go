@@ -6,3 +6,8 @@
 Package tekstus is a library for working with text.
 */
 package tekstus
+
+const (
+	// DefEscape character(s).
+	DefEscape = '\\'
+)
