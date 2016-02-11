@@ -5,6 +5,7 @@
 package tekstus_test
 
 import (
+	_ "fmt"
 	"github.com/shuLhan/tekstus"
 	"reflect"
 	"runtime/debug"
@@ -86,4 +87,39 @@ func TestEncapsulateToken(t *testing.T) {
 	exp = []byte("// Copyright 2016 Mhd Sulhan \\\" <ms@kilabit.info>\\\" . All rights reserved.")
 
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
+}
+
+func doEncasulateTrim(t *testing.T, line, leftcap, rightcap, exp []byte) {
+	got, changed := tekstus.EncapsulateTrim(line, leftcap, rightcap)
+
+	assert(t, string(exp), string(got), changed)
+}
+
+func TestEncapsulateTrim(t *testing.T) {
+	line := []byte("// Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
+
+	leftcap := []byte("<")
+	rightcap := []byte(">")
+	exp := []byte("// Copyright 2016 Mhd Sulhan \"\". All rights reserved.")
+
+	doEncasulateTrim(t, line, leftcap, rightcap, exp)
+
+	leftcap = []byte("\"")
+	rightcap = []byte("\"")
+	exp = []byte("// Copyright 2016 Mhd Sulhan . All rights reserved.")
+
+	doEncasulateTrim(t, line, leftcap, rightcap, exp)
+
+	leftcap = []byte("//")
+	rightcap = []byte("//")
+	exp = []byte("// Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
+
+	doEncasulateTrim(t, line, leftcap, rightcap, exp)
+
+	line = []byte("/* TEST */")
+	leftcap = []byte("/*")
+	rightcap = []byte("*/")
+	exp = []byte("")
+
+	doEncasulateTrim(t, line, leftcap, rightcap, exp)
 }

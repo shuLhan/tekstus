@@ -4,6 +4,10 @@
 
 package tekstus
 
+import (
+	"bytes"
+)
+
 /*
 FindToken return the first index of matched token in line.
 If not found it will return -1.
@@ -91,6 +95,39 @@ func EncapsulateToken(token, line, leftcap, rightcap []byte) (
 	if startat > 0 {
 		changed = true
 	}
+
+	return
+}
+
+/*
+EncapsulateTrim given a line, remove all bytes inside it, starting from
+`leftcap` until the `rightcap` and return cutted line and changed to true.
+
+If no `leftcap` or `rightcap` is found, the line will unchanged, and changed
+will be false.
+
+Example,
+
+	line    : "[[ ABC ]] DEF"
+	leftcap : "[["
+	rightcap: "]]"
+	return  : "  DEF"
+*/
+func EncapsulateTrim(line, leftcap, rightcap []byte) (
+	newline []byte,
+	changed bool,
+) {
+	lidx := bytes.Index(line, leftcap)
+	ridx := bytes.Index(line, rightcap)
+
+	if lidx < 0 || ridx < 0 || lidx >= ridx {
+		return line, false
+	}
+
+	newline = line[:lidx]
+	newline = append(newline, line[ridx+len(rightcap):]...)
+	changed = true
+	newline, _ = EncapsulateTrim(newline, leftcap, rightcap)
 
 	return
 }
