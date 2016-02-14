@@ -105,3 +105,32 @@ func GetMaxCharSequence(line string, nospace bool) (char rune, count int) {
 
 	return chars[idx], counts[idx]
 }
+
+/*
+CountUpperLowerChar return number of uppercase and lowercase in line.
+*/
+func CountUpperLowerChar(line string) (upper, lower int) {
+	for _, v := range line {
+		if !unicode.IsLetter(v) {
+			continue
+		}
+		if unicode.IsUpper(v) {
+			upper++
+		} else {
+			lower++
+		}
+	}
+	return
+}
+
+/*
+CountDigit return number of digit in line.
+*/
+func CountDigit(line string) (n int) {
+	for _, v := range line {
+		if unicode.IsDigit(v) {
+			n++
+		}
+	}
+	return
+}

@@ -88,3 +88,43 @@ func TestGetMaxCharSequence(t *testing.T) {
 			td.count, td.expvtest, td.expctest)
 	}
 }
+
+var dataUpperLowerTest = []struct {
+	line  string
+	expup int
+	explo int
+}{
+	{"// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.", 4, 44},
+}
+
+func doCountUpperLowerChar(t *testing.T, line string, expup, explo int) {
+	gotup, gotlo := tekstus.CountUpperLowerChar(line)
+
+	assert(t, expup, gotup, true)
+	assert(t, explo, gotlo, true)
+}
+
+func TestCountUpperLowerChar(t *testing.T) {
+	for _, td := range dataUpperLowerTest {
+		doCountUpperLowerChar(t, td.line, td.expup, td.explo)
+	}
+}
+
+var dataCountDigit = []struct {
+	line string
+	exp  int
+}{
+	{"// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.", 4},
+}
+
+func doCountDigit(t *testing.T, line string, exp int) {
+	got := tekstus.CountDigit(line)
+
+	assert(t, exp, got, true)
+}
+
+func TestCountDigit(t *testing.T) {
+	for _, td := range dataCountDigit {
+		doCountDigit(t, td.line, td.exp)
+	}
+}
