@@ -7,17 +7,8 @@ package tekstus_test
 import (
 	_ "fmt"
 	"github.com/shuLhan/tekstus"
-	"reflect"
-	"runtime/debug"
 	"testing"
 )
-
-func assert(t *testing.T, exp, got interface{}, equal bool) {
-	if reflect.DeepEqual(exp, got) != equal {
-		debug.PrintStack()
-		t.Fatalf("Expecting '%v' got '%v'\n", exp, got)
-	}
-}
 
 func testFindToken(t *testing.T, token, line []byte, startat int, exp []int) {
 	got := []int{}
