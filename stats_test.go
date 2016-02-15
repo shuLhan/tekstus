@@ -128,3 +128,21 @@ func TestCountDigit(t *testing.T) {
 		doCountDigit(t, td.line, td.exp)
 	}
 }
+
+func TestCountAlnumChar(t *testing.T) {
+	line := "// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved."
+	expnon := 16
+
+	n, l := tekstus.CountAlnumChar(line)
+
+	assert(t, expnon, l-n, true)
+}
+
+func TestCountUniqChar(t *testing.T) {
+	line := "// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved."
+	exp := 34
+
+	n, _ := tekstus.CountUniqChar(line)
+
+	assert(t, exp, n, true)
+}

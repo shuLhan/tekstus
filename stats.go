@@ -124,6 +124,26 @@ func CountUpperLowerChar(line string) (upper, lower int) {
 }
 
 /*
+RatioUpperLowerChar compute and return ratio of uppercase with lowercase
+character in line.
+*/
+func RatioUpperLowerChar(line string) float32 {
+	up, lo := CountUpperLowerChar(line)
+
+	return float32(1+up) / float32(1+lo)
+}
+
+/*
+RatioUpper compute and return ratio of uppercase character to all character in
+line.
+*/
+func RatioUpper(line string) float32 {
+	up, lo := CountUpperLowerChar(line)
+
+	return float32(1+up) / float32(1+up+lo)
+}
+
+/*
 CountDigit return number of digit in line.
 */
 func CountDigit(line string) (n int) {
@@ -131,6 +151,61 @@ func CountDigit(line string) (n int) {
 		if unicode.IsDigit(v) {
 			n++
 		}
+	}
+	return
+}
+
+/*
+RatioDigit compute and return digit ratio to all characters in line.
+*/
+func RatioDigit(line string) float32 {
+	n := CountDigit(line)
+	slen := len(line)
+
+	return float32(1+n) / float32(1+slen)
+}
+
+/*
+CountAlnumChar return number of alpha-numeric character in line and length of
+line.
+*/
+func CountAlnumChar(line string) (n, l int) {
+	l = len(line)
+	for _, v := range line {
+		if unicode.IsDigit(v) || unicode.IsLetter(v) {
+			n++
+		}
+	}
+	return
+}
+
+/*
+RatioAlnumChar compute and return ratio of alpha-numeric with all character in
+line.
+*/
+func RatioAlnumChar(line string) float32 {
+	n, length := CountAlnumChar(line)
+
+	return float32(1+n) / float32(1+length)
+}
+
+/*
+CountUniqChar count number of character in line without duplication and return
+it along with length of line.
+
+Example, if line is "aba" then it will count as 2 ("a", "b").
+*/
+func CountUniqChar(line string) (n, l int) {
+	var uchars []rune
+
+	l = len(line)
+
+	for _, v := range line {
+		if IsIn(uchars, v) {
+			continue
+		}
+		uchars = append(uchars, v)
+		n++
 	}
 	return
 }
