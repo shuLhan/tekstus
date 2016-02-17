@@ -146,3 +146,26 @@ func TestCountUniqChar(t *testing.T) {
 
 	assert(t, exp, n, true)
 }
+
+func TestCountCharDistribution(t *testing.T) {
+	line := "// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved."
+	expchars := []rune{'C', 'o', 'p', 'y', 'r', 'i', 'g', 'h', 't',
+		'2', '0', '1', '6',
+		'M', 'd', 'S', 'u', 'l', 'a', 'n',
+		'm', 's',
+		'k', 'b', 'f',
+		'A', 'e', 'v',
+	}
+	expvalues := []int{1, 2, 1, 1, 4, 5, 2, 4, 3,
+		1, 1, 1, 1,
+		1, 2, 1, 1, 4, 2, 2,
+		1, 3,
+		1, 1, 1,
+		1, 3, 1,
+	}
+
+	gotchars, gotvalues := tekstus.CountAlnumDistribution(line)
+
+	assert(t, expchars, gotchars, true)
+	assert(t, expvalues, gotvalues, true)
+}

@@ -201,11 +201,41 @@ func CountUniqChar(line string) (n, l int) {
 	l = len(line)
 
 	for _, v := range line {
-		if IsIn(uchars, v) {
+		yes, _ := RunesContain(uchars, v)
+		if yes {
 			continue
 		}
 		uchars = append(uchars, v)
 		n++
+	}
+	return
+}
+
+/*
+CountAlnumDistribution count alpha-numeric characters in line.
+
+Example, given a line "abbcccddddeeeee", it will return [a b c d e] and
+[1 2 3 4 5].
+*/
+func CountAlnumDistribution(line string) (chars []rune, values []int) {
+	var found = false
+
+	for _, v := range line {
+		if !(unicode.IsDigit(v) || unicode.IsLetter(v)) {
+			continue
+		}
+		found = false
+		for y, c := range chars {
+			if v == c {
+				values[y]++
+				found = true
+				break
+			}
+		}
+		if !found {
+			chars = append(chars, v)
+			values = append(values, 1)
+		}
 	}
 	return
 }
