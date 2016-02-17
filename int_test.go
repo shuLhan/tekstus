@@ -36,3 +36,12 @@ func TestIntFindMin(t *testing.T) {
 	assert(t, 1, minv, true)
 	assert(t, 0, minid, true)
 }
+
+func TestIntSum(t *testing.T) {
+	data := []int{0, 1, 2, 3, -3, -2, -1, 0}
+	exp := 0
+
+	got := tekstus.IntSum(data)
+
+	assert(t, exp, got, true)
+}

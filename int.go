@@ -59,3 +59,13 @@ func IntFindMin(data []int) (min int, minidx int) {
 
 	return
 }
+
+/*
+IntSum return sum of all value in slice.
+*/
+func IntSum(data []int) (sum int) {
+	for _, v := range data {
+		sum += v
+	}
+	return
+}
