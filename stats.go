@@ -5,8 +5,58 @@
 package tekstus
 
 import (
+	"strings"
 	"unicode"
 )
+
+/*
+StringCount will return number of token occurence in words.
+*/
+func StringCount(words []string, token string, sensitive bool) (cnt int) {
+
+	if !sensitive {
+		token = strings.ToLower(token)
+	}
+
+	for _, v := range words {
+		if !sensitive {
+			v = strings.ToLower(v)
+		}
+
+		if v == token {
+			cnt++
+		}
+	}
+	return
+}
+
+/*
+StringFrequency return frequency of token in words using
+
+	count-of-token / total-words
+*/
+func StringFrequency(words []string, token string, sensitive bool) float64 {
+	cnt := StringCount(words, token, sensitive)
+
+	wordslen := len(words)
+	if wordslen <= 0 {
+		return 0
+	}
+
+	return float64(cnt) / float64(wordslen)
+}
+
+/*
+ListStringFrequency return total frequency of tokens in words.
+*/
+func ListStringFrequency(words []string, tokens []string, sensitive bool) (
+	sumfreq float64,
+) {
+	for _, token := range tokens {
+		sumfreq += StringFrequency(words, token, sensitive)
+	}
+	return
+}
 
 /*
 StringCountBy count number of occurrence of `class` values in data.
@@ -19,16 +69,13 @@ return "[2,1]".
 	0 : A -> 2
 	1 : B -> 1
 */
-func StringCountBy(data []string, class []string) (clsCnt []int) {
+func StringCountBy(data []string, class []string, sensitive bool) (
+	clsCnt []int,
+) {
 	clsCnt = make([]int, len(class))
 
-	for _, r := range data {
-		for k, v := range class {
-			if r == v {
-				clsCnt[k]++
-				break
-			}
-		}
+	for k, v := range class {
+		clsCnt[k] = StringCount(data, v, sensitive)
 	}
 
 	return
@@ -45,8 +92,8 @@ Example, given input
 it will return A as the majority class in data.
 If class has equal frequency, then the first class in order will returned.
 */
-func StringsGetMajority(data []string, class []string) string {
-	classCount := StringCountBy(data, class)
+func StringsGetMajority(data []string, class []string, sensitive bool) string {
+	classCount := StringCountBy(data, class, sensitive)
 	_, maxIdx := IntFindMax(classCount)
 
 	return class[maxIdx]
