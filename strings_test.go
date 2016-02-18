@@ -68,3 +68,24 @@ func TestPartitioning2(t *testing.T) {
 		}
 	}
 }
+
+var dStringsFindLongest = []struct {
+	words []string
+	exp   string
+}{
+	{
+		[]string{"a", "bb", "ccc", "d", "eee"},
+		"ccc",
+	}, {
+		[]string{"a", "bb", "ccc", "dddd", "eee"},
+		"dddd",
+	},
+}
+
+func TestStringsFindLongest(t *testing.T) {
+	for _, td := range dStringsFindLongest {
+		got, _ := tekstus.StringsFindLongest(td.words)
+
+		assert(t, td.exp, got, true)
+	}
+}
