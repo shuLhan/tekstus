@@ -6,6 +6,7 @@ package tekstus
 
 import (
 	"github.com/golang/glog"
+	"strings"
 )
 
 /*
@@ -174,5 +175,16 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 
 	glog.V(1).Infof("%s append %v      : %v\n", createIndent(n), el, table)
 
+	return
+}
+
+/*
+StringCountTokens given a text, count how many tokens inside of it and return
+it.
+*/
+func StringCountTokens(text string, tokens []string) (cnt int) {
+	for _, v := range tokens {
+		cnt += strings.Count(text, v)
+	}
 	return
 }
