@@ -4,6 +4,10 @@
 
 package tekstus
 
+import (
+	"unicode"
+)
+
 /*
 RunesContain return true if character `c` is in slice of rune `s` and index of
 character in `s`.
@@ -56,4 +60,53 @@ func RunesDiff(l []rune, r []rune) (diff []rune) {
 	}
 
 	return
+}
+
+/*
+RunesFindToken will search token in text starting from index `startAt` and
+return the matching index.
+*/
+func RunesFindToken(line, token []rune, startAt int) (at int) {
+	y := 0
+	tokenlen := len(token)
+	linelen := len(line)
+
+	at = -1
+	for x := startAt; x < linelen; x++ {
+		if line[x] == token[y] {
+			if y == 0 {
+				at = x
+			}
+			y++
+			if y == tokenlen {
+				// we found it!
+				return
+			}
+		} else {
+			if at != -1 {
+				// reset back
+				y = 0
+				at = -1
+			}
+		}
+	}
+	// x run out before y
+	if y < tokenlen {
+		at = -1
+	}
+	return
+}
+
+/*
+RunesFindSpaces in line, return -1 if not found.
+*/
+func RunesFindSpaces(line []rune, startAt int) (idx int) {
+	lineLen := len(line)
+
+	for idx = startAt; idx < lineLen; idx++ {
+		if unicode.IsSpace(line[idx]) {
+			return
+		}
+	}
+	return -1
 }
