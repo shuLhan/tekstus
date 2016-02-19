@@ -135,3 +135,87 @@ func StringSplitWords(text string, cleanit bool, uniq bool) (words []string) {
 	// Remove duplicate values.
 	return StringUniq(words, false)
 }
+
+/*
+StringRemoveURI remove link (http, https, ftp, ftps) from text and return the
+new text.
+This function assume that space in URI is using '%20'.
+*/
+func StringRemoveURI(text string) string {
+	if len(text) <= 0 {
+		return ""
+	}
+
+	var uris = []string{
+		"http://", "https://", "ftp://", "ftps://",
+	}
+
+	ctext := []rune(text)
+
+	for _, uri := range uris {
+		startat := 0
+		curi := []rune(uri)
+		newtext := []rune{}
+
+		for {
+			begin := RunesFindToken(ctext, curi, startat)
+			if begin < 0 {
+				if startat > 0 {
+					newtext = append(newtext,
+						ctext[startat:]...)
+				}
+				break
+			}
+
+			newtext = append(newtext, ctext[startat:begin]...)
+
+			end := RunesFindSpaces(ctext, begin)
+			if end < 0 {
+				break
+			}
+
+			startat = end
+		}
+		if len(newtext) > 0 {
+			ctext = newtext
+		}
+	}
+	return string(ctext)
+}
+
+/*
+StringMergeSpaces replace two or more spaces with single space. If withline is
+true it also replace two or more new lines with single new-line.
+*/
+func StringMergeSpaces(text string, withline bool) string {
+	var out []rune
+	var isspace bool
+	var isnewline bool
+
+	for _, v := range text {
+		if v == ' ' {
+			if isspace {
+				continue
+			}
+			isspace = true
+		} else {
+			if isspace {
+				isspace = false
+			}
+		}
+		if withline {
+			if v == '\n' {
+				if isnewline {
+					continue
+				}
+				isnewline = true
+			} else {
+				if isnewline {
+					isnewline = false
+				}
+			}
+		}
+		out = append(out, v)
+	}
+	return string(out)
+}
