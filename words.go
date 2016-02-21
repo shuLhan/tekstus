@@ -51,3 +51,27 @@ func WordsUniq(words []string, sensitive bool) (uniques []string) {
 	}
 	return
 }
+
+/*
+WordsFindLongest find the longest word in words and return their value and
+index.
+
+If words is empty return nil string with negative (-1) index.
+*/
+func WordsFindLongest(words []string) (slong string, idx int) {
+	if len(words) <= 0 {
+		return "", -1
+	}
+
+	slonglen := len(slong)
+
+	for x, v := range words {
+		vlen := len(v)
+		if vlen > slonglen {
+			slonglen = vlen
+			slong = v
+			idx = x
+		}
+	}
+	return
+}
