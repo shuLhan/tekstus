@@ -4,7 +4,8 @@
 
 package tekstus
 
-// VulgarWords contain list of vulgar and offensive words, informal and slangs.
+// VulgarWords contain list of vulgar and offensive words in informal and
+// slangs.
 var VulgarWords = []string{
 	"$#!+", "$1ut", "$h1t", "$hit", "$lut", "'f*ck'", "'ho", "'hobag",
 	"@ss", "@sshole", "a$$", "a$$h0!e", "a$$h01e", "a$$h0le", "a$$hole",
@@ -125,7 +126,7 @@ var VulgarWords = []string{
 	"wtf", "x-rated", "xxx", "yeasty", "yobbo", "zoophile",
 }
 
-// PronounWords contains list of first and second person pronouns, including
+// PronounWords contains list of first and second person pronouns including
 // slangs.
 var PronounWords = []string{
 	"i", "me", "mine", "my", "myself", "our", "ours", "ourself",
@@ -133,4 +134,25 @@ var PronounWords = []string{
 	"we", "y'all", "y'all", "y'all's", "yis", "you", "you-uns", "your",
 	"yours", "yourself", "yourselves", "yourselves", "yous", "yous's",
 	"youse", "youse",
+}
+
+// BiasedWords contain list of colloquial words with high bias.
+var BiasedWords = []string{
+	"cutting-edge", "single-handedly", "well-established", "well-known",
+	"world-class", "absolute", "acclaimed", "amazing", "astonishing",
+	"authoritative", "beautiful", "best", "boreing", "boring", "brilliant",
+	"canonical", "cares", "celebrated", "charismatic", "classic",
+	"coolest", "defining", "definitive", "eminent", "enigma", "ever",
+	"everyone", "exciting", "extraordinary", "fabulous", "famous",
+	"fantastic", "fat", "fully", "genius", "global", "great", "greatest",
+	"hate", "huge", "iconic", "idiotic", "immensely", "impactful",
+	"incendiary", "indisputable", "infamous", "influential", "innovative",
+	"inspired", "intriguing", "lame", "leader", "leading", "legendary",
+	"like", "major", "masterly", "mature", "memorable", "most", "notable",
+	"outstanding", "pioneer", "popular", "prestigious", "probably",
+	"really", "remarkable", "renowned", "respected", "seminal",
+	"significant", "skillful", "solution", "staunch", "strange", "super",
+	"talented", "top", "total", "totally", "transcendent", "ugly",
+	"undoubtedly", "unique", "virtually", "virtuoso", "visionary", "weird",
+	"worst",
 }
