@@ -10,16 +10,6 @@ import (
 	"testing"
 )
 
-func TestStringCountBy(t *testing.T) {
-	data := []string{"A", "B", "A", "C"}
-	class := []string{"A", "B"}
-	exp := []int{2, 1}
-
-	got := tekstus.StringCountBy(data, class, false)
-
-	assert(t, exp, got, true)
-}
-
 var dataCharSequence = []struct {
 	line     string
 	nospace  bool
@@ -168,15 +158,4 @@ func TestCountCharDistribution(t *testing.T) {
 
 	assert(t, expchars, gotchars, true)
 	assert(t, expvalues, gotvalues, true)
-}
-
-func TestListStringFrequency(t *testing.T) {
-	words := []string{"a", "b", "a", "b", "a", "c"}
-	tokens := []string{"a", "b"}
-	wordslen := float64(len(words))
-	exp := (3.0 / wordslen) + (2.0 / wordslen)
-
-	got := tekstus.ListStringFrequency(words, tokens, false)
-
-	assert(t, exp, got, true)
 }
