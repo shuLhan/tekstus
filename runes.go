@@ -65,6 +65,8 @@ func RunesDiff(l []rune, r []rune) (diff []rune) {
 /*
 RunesFindToken will search token in text starting from index `startAt` and
 return the matching index.
+
+If no token is found it will return -1.
 */
 func RunesFindToken(line, token []rune, startAt int) (at int) {
 	y := 0
@@ -109,4 +111,36 @@ func RunesFindSpaces(line []rune, startAt int) (idx int) {
 		}
 	}
 	return -1
+}
+
+/*
+RunesEncapsulateTrim given a line, remove all characters inside it, starting
+from `leftcap` until the `rightcap` and return cutted line and changed to true.
+
+If no `leftcap` or `rightcap` is found, the line will unchanged, and changed
+will be false.
+
+Example,
+
+	line    : "[[ ABC ]] DEF"
+	leftcap : "[["
+	rightcap: "]]"
+	return  : "  DEF"
+*/
+func RunesEncapsulateTrim(line, leftcap, rightcap []rune) (
+	newline []rune,
+	changed bool,
+) {
+	lidx := RunesFindToken(line, leftcap, 0)
+	ridx := RunesFindToken(line, rightcap, lidx+1)
+
+	if lidx < 0 || ridx < 0 || lidx >= ridx {
+		return line, false
+	}
+
+	newline = line[:lidx]
+	newline = append(newline, line[ridx+len(rightcap):]...)
+	newline, _ = RunesEncapsulateTrim(newline, leftcap, rightcap)
+
+	return newline, true
 }

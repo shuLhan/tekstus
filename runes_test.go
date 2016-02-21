@@ -44,3 +44,12 @@ func TestRunesDiff(t *testing.T) {
 		doRunesDiff(t, td.l, td.r, td.exp)
 	}
 }
+
+func TestRunesEncapsulateTrim(t *testing.T) {
+	for _, td := range dataEncapsulateTrim {
+		got, _ := tekstus.RunesEncapsulateTrim([]rune(td.text),
+			[]rune(td.leftcap), []rune(td.rightcap))
+
+		assert(t, string(td.exp), string(got), true)
+	}
+}
