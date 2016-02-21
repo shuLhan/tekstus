@@ -4,6 +4,11 @@
 
 package tekstus
 
+// URIPrefixes contain list of common URI prefix in content of web pages.
+var URIPrefixes = []string{
+	"http://", "https://", "ftp://", "ftps://",
+}
+
 // VulgarWords contain list of vulgar and offensive words in informal and
 // slangs.
 var VulgarWords = []string{

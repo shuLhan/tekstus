@@ -88,11 +88,8 @@ func StringTrimNonAlnum(text string) string {
 /*
 StringSplitWords given a text, return all words in text.
 
-Definition of word are,
-- any sequence of characters that is equal or greater than one that is
-separated by space.
-- does not start with number
-- does not end with number
+Definition of word is any sequence of character which have length equal or
+greater than one and separated by space.
 
 If cleanit is true remove any non-alphanumeric in the start and the end of
 each words.
@@ -130,13 +127,9 @@ func StringRemoveURI(text string) string {
 		return ""
 	}
 
-	var uris = []string{
-		"http://", "https://", "ftp://", "ftps://",
-	}
-
 	ctext := []rune(text)
 
-	for _, uri := range uris {
+	for _, uri := range URIPrefixes {
 		startat := 0
 		curi := []rune(uri)
 		newtext := []rune{}
@@ -218,47 +211,11 @@ StringRemoveWikiMarkup remove wiki markup, including,
 - <ref ... />
 */
 func StringRemoveWikiMarkup(text string) string {
-	markups := []struct {
-		begin []rune
-		end   []rune
-	}{
-		{
-			[]rune("[[Category:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[:Category:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[File:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[Help:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[Image:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[Special:"),
-			[]rune("]]"),
-		}, {
-			[]rune("[[Wikipedia:"),
-			[]rune("]]"),
-		}, {
-			[]rune("{{DEFAULTSORT:"),
-			[]rune("}}"),
-		}, {
-			[]rune("{{Template:"),
-			[]rune("}}"),
-		}, {
-			[]rune("<ref"),
-			[]rune("/>"),
-		},
-	}
-
 	ctext := []rune(text)
 
-	for _, mu := range markups {
-		ctext, _ = RunesEncapsulateTrim(ctext, mu.begin, mu.end)
+	for _, mu := range WikiMarkups {
+		ctext, _ = RunesEncapsulateTrim(ctext, []rune(mu.begin),
+			[]rune(mu.end))
 	}
 
 	return string(ctext)
