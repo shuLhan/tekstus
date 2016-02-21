@@ -156,3 +156,10 @@ var BiasedWords = []string{
 	"undoubtedly", "unique", "virtually", "virtuoso", "visionary", "weird",
 	"worst",
 }
+
+// SexWords contain list of non-vulgar, sex-related words.
+var SexWords = []string{
+	"anal", "breast", "breasts", "buttocks", "dildo", "dildos", "erect",
+	"nipple", "nipples", "penis", "sex", "sodomized", "sodomy", "vagina",
+	"vibrator", "vibrators",
+}
