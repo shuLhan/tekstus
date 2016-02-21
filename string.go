@@ -13,10 +13,38 @@ import (
 StringCountTokens given a text, count how many tokens inside of it and return
 sum of all.
 */
-func StringCountTokens(text string, tokens []string) (cnt int) {
+func StringCountTokens(text string, tokens []string, sensitive bool) (
+	cnt int,
+) {
+	if !sensitive {
+		text = strings.ToLower(text)
+	}
+
 	for _, v := range tokens {
 		cnt += strings.Count(text, v)
 	}
+
+	return
+}
+
+/*
+StringFrequenciesOf return frequencies of tokens by counting each occurence
+of token and divide it with total words in text.
+*/
+func StringFrequenciesOf(text string, tokens []string, sensitive bool) (
+	freq float64,
+) {
+	if len(text) <= 0 {
+		return 0
+	}
+
+	textWords := StringSplitWords(text, false, false)
+	textWordsLen := float64(len(textWords))
+
+	tokensCnt := float64(StringCountTokens(text, tokens, sensitive))
+
+	freq = tokensCnt / textWordsLen
+
 	return
 }
 
@@ -58,50 +86,6 @@ func StringTrimNonAlnum(text string) string {
 }
 
 /*
-StringUniq remove duplicate word from `words`. If sensitive is true then
-compare the string with case sensitive.
-
-Return the list of unique words.
-*/
-func StringUniq(words []string, sensitive bool) (uniques []string) {
-	// Remove duplicate values.
-	wordslen := len(words)
-	xcmp := ""
-	ycmp := ""
-
-	for x, v := range words {
-		if v == "" {
-			continue
-		}
-
-		if sensitive {
-			xcmp = v
-		} else {
-			xcmp = strings.ToLower(v)
-		}
-
-		for y := x + 1; y < wordslen; y++ {
-			if len(words[y]) == 0 {
-				continue
-			}
-
-			if sensitive {
-				ycmp = words[y]
-			} else {
-				ycmp = strings.ToLower(words[y])
-			}
-
-			if xcmp == ycmp {
-				words[y] = ""
-			}
-		}
-
-		uniques = append(uniques, v)
-	}
-	return
-}
-
-/*
 StringSplitWords given a text, return all words in text.
 
 Definition of word are,
@@ -133,7 +117,7 @@ func StringSplitWords(text string, cleanit bool, uniq bool) (words []string) {
 	}
 
 	// Remove duplicate values.
-	return StringUniq(words, false)
+	return WordsUniq(words, false)
 }
 
 /*

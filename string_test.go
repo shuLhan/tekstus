@@ -27,7 +27,7 @@ var dataStringCountTokens = []struct {
 
 func TestStringCountTokens(t *testing.T) {
 	for _, td := range dataStringCountTokens {
-		got := tekstus.StringCountTokens(td.line, td.tokens)
+		got := tekstus.StringCountTokens(td.line, td.tokens, false)
 
 		assert(t, td.exp, got, true)
 	}
@@ -144,7 +144,7 @@ var dataStringRemoveWikiMarkup = []struct {
 <br clear="all">
 {{Fifthdoctoraudios}}
 
-{{DEFAULTSORT:Eye of the Scoprion, The}}
+
 
 
 {{DoctorWho-stub}}`,
