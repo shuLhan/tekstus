@@ -157,9 +157,17 @@ var BiasedWords = []string{
 	"worst",
 }
 
-// SexWords contain list of non-vulgar, sex-related words.
+// SexWords contain list of non-vulgar sex-related words.
 var SexWords = []string{
 	"anal", "breast", "breasts", "buttocks", "dildo", "dildos", "erect",
 	"nipple", "nipples", "penis", "sex", "sodomized", "sodomy", "vagina",
 	"vibrator", "vibrators",
+}
+
+// BadWords contain list of colloquial words or bad writing words.
+var BadWords = []string{
+	"666", "da", "dont", "dosent", "whatever", "guy", "hi", "nazi", "sup",
+	"guise", "loser", "thats", "ugly", "wanna", "whats", "wont", "gotta",
+	"bloody", "fart", "pot", "prick", "stink", "smells", "smelly", "alot",
+	"dunno", "gotcha",
 }
