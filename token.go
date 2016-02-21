@@ -4,10 +4,6 @@
 
 package tekstus
 
-import (
-	"bytes"
-)
-
 /*
 FindToken return the first index of matched token in line.
 If not found it will return -1.
@@ -117,8 +113,8 @@ func EncapsulateTrim(line, leftcap, rightcap []byte) (
 	newline []byte,
 	changed bool,
 ) {
-	lidx := bytes.Index(line, leftcap)
-	ridx := bytes.Index(line, rightcap)
+	lidx := FindToken(leftcap, line, 0)
+	ridx := FindToken(rightcap, line, lidx+1)
 
 	if lidx < 0 || ridx < 0 || lidx >= ridx {
 		return line, false
@@ -127,6 +123,8 @@ func EncapsulateTrim(line, leftcap, rightcap []byte) (
 	newline = line[:lidx]
 	newline = append(newline, line[ridx+len(rightcap):]...)
 	changed = true
+
+	// Repeat
 	newline, _ = EncapsulateTrim(newline, leftcap, rightcap)
 
 	return

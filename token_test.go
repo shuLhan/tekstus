@@ -29,7 +29,7 @@ func testFindToken(t *testing.T, token, line []byte, startat int, exp []int) {
 }
 
 func TestFindToken(t *testing.T) {
-	line := []byte("// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.")
+	line := []byte(dataLines[0])
 
 	token := []byte("//")
 	exp := []int{0}
@@ -56,7 +56,7 @@ func testEncasulateToken(t *testing.T, token, line, leftcap, rightcap,
 }
 
 func TestEncapsulateToken(t *testing.T) {
-	line := []byte("// Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
+	line := []byte(dataLines[1])
 
 	token := []byte("/")
 	leftcap := []byte("\\")
@@ -80,37 +80,11 @@ func TestEncapsulateToken(t *testing.T) {
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
 }
 
-func doEncasulateTrim(t *testing.T, line, leftcap, rightcap, exp []byte) {
-	got, changed := tekstus.EncapsulateTrim(line, leftcap, rightcap)
-
-	assert(t, string(exp), string(got), changed)
-}
-
 func TestEncapsulateTrim(t *testing.T) {
-	line := []byte("// Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
+	for _, td := range dataEncapsulateTrim {
+		got, _ := tekstus.EncapsulateTrim([]byte(td.text),
+			[]byte(td.leftcap), []byte(td.rightcap))
 
-	leftcap := []byte("<")
-	rightcap := []byte(">")
-	exp := []byte("// Copyright 2016 Mhd Sulhan \"\". All rights reserved.")
-
-	doEncasulateTrim(t, line, leftcap, rightcap, exp)
-
-	leftcap = []byte("\"")
-	rightcap = []byte("\"")
-	exp = []byte("// Copyright 2016 Mhd Sulhan . All rights reserved.")
-
-	doEncasulateTrim(t, line, leftcap, rightcap, exp)
-
-	leftcap = []byte("//")
-	rightcap = []byte("//")
-	exp = []byte("// Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
-
-	doEncasulateTrim(t, line, leftcap, rightcap, exp)
-
-	line = []byte("/* TEST */")
-	leftcap = []byte("/*")
-	rightcap = []byte("*/")
-	exp = []byte("")
-
-	doEncasulateTrim(t, line, leftcap, rightcap, exp)
+		assert(t, string(td.exp), string(got), true)
+	}
 }
