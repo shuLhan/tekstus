@@ -135,7 +135,7 @@ func StringRemoveURI(text string) string {
 		newtext := []rune{}
 
 		for {
-			begin := RunesFindToken(ctext, curi, startat)
+			begin := RunesFind(ctext, curi, startat)
 			if begin < 0 {
 				if startat > 0 {
 					newtext = append(newtext,
@@ -214,8 +214,7 @@ func StringRemoveWikiMarkup(text string) string {
 	ctext := []rune(text)
 
 	for _, mu := range WikiMarkups {
-		ctext, _ = RunesEncapsulateTrim(ctext, []rune(mu.begin),
-			[]rune(mu.end))
+		ctext, _ = RunesRemoveUntil(ctext, []rune(mu.begin), []rune(mu.end))
 	}
 
 	return string(ctext)

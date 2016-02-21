@@ -41,11 +41,12 @@ var dataLines = []string{
 
 {{DEFAULTSORT:Eye of the Scoprion, The}}
 [[Category:Fifth Doctor audio plays]]
+[[Category:Fifth Doctor audio plays]]
 [[:Category:2001 audio plays]]
 {{DoctorWho-stub}}`,
 }
 
-var dataEncapsulateTrim = []struct {
+var dataCut = []struct {
 	text     string
 	leftcap  string
 	rightcap string

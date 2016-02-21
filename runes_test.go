@@ -45,9 +45,9 @@ func TestRunesDiff(t *testing.T) {
 	}
 }
 
-func TestRunesEncapsulateTrim(t *testing.T) {
-	for _, td := range dataEncapsulateTrim {
-		got, _ := tekstus.RunesEncapsulateTrim([]rune(td.text),
+func TestRunesRemoveUntil(t *testing.T) {
+	for _, td := range dataCut {
+		got, _ := tekstus.RunesRemoveUntil([]rune(td.text),
 			[]rune(td.leftcap), []rune(td.rightcap))
 
 		assert(t, string(td.exp), string(got), true)
