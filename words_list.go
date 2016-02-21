@@ -4,6 +4,7 @@
 
 package tekstus
 
+// VulgarWords contain list of vulgar and offensive words, informal and slangs.
 var VulgarWords = []string{
 	"$#!+", "$1ut", "$h1t", "$hit", "$lut", "'f*ck'", "'ho", "'hobag",
 	"@ss", "@sshole", "a$$", "a$$h0!e", "a$$h01e", "a$$h0le", "a$$hole",
@@ -122,4 +123,14 @@ var VulgarWords = []string{
 	"whore", "whorealicious", "whored", "whoreface", "whorehopper",
 	"whorehouse", "whores", "whoring", "wigger", "womb", "woody", "wop",
 	"wtf", "x-rated", "xxx", "yeasty", "yobbo", "zoophile",
+}
+
+// PronounWords contains list of first and second person pronouns, including
+// slangs.
+var PronounWords = []string{
+	"i", "me", "mine", "my", "myself", "our", "ours", "ourself",
+	"ourselves", "selves", "thee", "thine", "thou", "thy", "thyself", "us",
+	"we", "y'all", "y'all", "y'all's", "yis", "you", "you-uns", "your",
+	"yours", "yourself", "yourselves", "yourselves", "yous", "yous's",
+	"youse", "youse",
 }
