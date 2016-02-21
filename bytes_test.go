@@ -10,12 +10,12 @@ import (
 	"testing"
 )
 
-func testFindToken(t *testing.T, token, line []byte, startat int, exp []int) {
+func testBytesFind(t *testing.T, line, token []byte, startat int, exp []int) {
 	got := []int{}
 	tokenlen := len(token)
 
 	for {
-		foundat := tekstus.FindToken(token, line, startat)
+		foundat := tekstus.BytesFind(line, token, startat)
 
 		if foundat < 0 {
 			break
@@ -28,34 +28,34 @@ func testFindToken(t *testing.T, token, line []byte, startat int, exp []int) {
 	assert(t, exp, got, true)
 }
 
-func TestFindToken(t *testing.T) {
+func TestBytesFind(t *testing.T) {
 	line := []byte(dataLines[0])
 
 	token := []byte("//")
 	exp := []int{0}
 
-	testFindToken(t, token, line, 0, exp)
+	testBytesFind(t, line, token, 0, exp)
 
 	token = []byte(".")
 	exp = []int{40, 46, 67}
 
-	testFindToken(t, token, line, 0, exp)
+	testBytesFind(t, line, token, 0, exp)
 
 	token = []byte("d.")
 	exp = []int{66}
 
-	testFindToken(t, token, line, 0, exp)
+	testBytesFind(t, line, token, 0, exp)
 }
 
 func testEncasulateToken(t *testing.T, token, line, leftcap, rightcap,
 	exp []byte) {
 
-	newline, changed := tekstus.EncapsulateToken(token, line, leftcap, rightcap)
+	newline, changed := tekstus.BytesEncapsulate(token, line, leftcap, rightcap)
 
 	assert(t, string(exp), string(newline), changed)
 }
 
-func TestEncapsulateToken(t *testing.T) {
+func TestBytesEncapsulate(t *testing.T) {
 	line := []byte(dataLines[1])
 
 	token := []byte("/")
@@ -80,9 +80,9 @@ func TestEncapsulateToken(t *testing.T) {
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
 }
 
-func TestEncapsulateTrim(t *testing.T) {
-	for _, td := range dataEncapsulateTrim {
-		got, _ := tekstus.EncapsulateTrim([]byte(td.text),
+func TestBytesRemoveUntil(t *testing.T) {
+	for _, td := range dataCut {
+		got, _ := tekstus.BytesRemoveUntil([]byte(td.text),
 			[]byte(td.leftcap), []byte(td.rightcap))
 
 		assert(t, string(td.exp), string(got), true)

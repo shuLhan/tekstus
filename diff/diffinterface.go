@@ -173,7 +173,7 @@ func BytesRatio(old, new []byte, minTokenLen int) (
 		for ; x < max; x++ {
 			token := old[x : x+minlen]
 
-			y = tekstus.FindToken(token, new, 0)
+			y = tekstus.BytesFind(new, token, 0)
 			if y > 0 {
 				break
 			}
@@ -504,7 +504,7 @@ func Lines(old, new []byte, atx, aty int) (adds, dels tekstus.Chunks) {
 	}
 	xtoken := oldleft[:minlen]
 
-	xaty := tekstus.FindToken(xtoken, newleft, 0)
+	xaty := tekstus.BytesFind(newleft, xtoken, 0)
 
 	// Get miniminal token to search in the old left over.
 	minlen = DefMatchLen
@@ -513,7 +513,7 @@ func Lines(old, new []byte, atx, aty int) (adds, dels tekstus.Chunks) {
 	}
 	ytoken := newleft[:minlen]
 
-	yatx := tekstus.FindToken(ytoken, oldleft, 0)
+	yatx := tekstus.BytesFind(oldleft, ytoken, 0)
 
 	// Case 4:
 	// We did not find matching token of x in y, its mean the some chunk
@@ -596,7 +596,7 @@ func searchForward(atx, aty int, x, y *int, oldleft, newleft *[]byte) (
 	for ; xx < oldleftlen-minlen; xx++ {
 		token := (*oldleft)[xx : xx+minlen]
 
-		xaty = tekstus.FindToken(token, *newleft, 0)
+		xaty = tekstus.BytesFind(*newleft, token, 0)
 		if xaty > 0 {
 			break
 		}
@@ -612,7 +612,7 @@ func searchForward(atx, aty int, x, y *int, oldleft, newleft *[]byte) (
 	for ; yy < newleftlen-minlen; yy++ {
 		token := (*newleft)[yy : yy+minlen]
 
-		yatx = tekstus.FindToken(token, *oldleft, 0)
+		yatx = tekstus.BytesFind(*oldleft, token, 0)
 		if yatx > 0 {
 			break
 		}
