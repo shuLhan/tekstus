@@ -219,3 +219,63 @@ func StringMergeSpaces(text string, withline bool) string {
 	}
 	return string(out)
 }
+
+/*
+StringRemoveWikiMarkup remove wiki markup, including,
+- [[Category: ... ]]
+- [[:Category: ... ]]
+- [[File: ... ]]
+- [[Help: ... ]]
+- [[Image: ... ]]
+- [[Special: ... ]]
+- [[Wikipedia: ... ]]
+- {{DEFAULTSORT: ... }}
+- {{Template: ... }}
+- <ref ... />
+*/
+func StringRemoveWikiMarkup(text string) string {
+	markups := []struct {
+		begin []rune
+		end   []rune
+	}{
+		{
+			[]rune("[[Category:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[:Category:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[File:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[Help:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[Image:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[Special:"),
+			[]rune("]]"),
+		}, {
+			[]rune("[[Wikipedia:"),
+			[]rune("]]"),
+		}, {
+			[]rune("{{DEFAULTSORT:"),
+			[]rune("}}"),
+		}, {
+			[]rune("{{Template:"),
+			[]rune("}}"),
+		}, {
+			[]rune("<ref"),
+			[]rune("/>"),
+		},
+	}
+
+	ctext := []rune(text)
+
+	for _, mu := range markups {
+		ctext, _ = RunesEncapsulateTrim(ctext, mu.begin, mu.end)
+	}
+
+	return string(ctext)
+}
