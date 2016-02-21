@@ -79,6 +79,10 @@ WordsFrequenciesOf return total frequency of tokens in words.
 func WordsFrequenciesOf(words []string, tokens []string, sensitive bool) (
 	sumfreq float64,
 ) {
+	if len(words) <= 0 || len(tokens) <= 0 {
+		return 0
+	}
+
 	for _, token := range tokens {
 		sumfreq += WordsFrequencyOf(words, token, sensitive)
 	}
@@ -96,10 +100,17 @@ Example, given input
 it will return A as the majority tokens in words.
 If tokens has equal frequency, then the first tokens in order will returned.
 */
-func WordsMaxCountOf(words []string, tokens []string,
-	sensitive bool) string {
+func WordsMaxCountOf(words []string, tokens []string, sensitive bool) string {
+	if len(words) <= 0 {
+		return ""
+	}
+
 	tokensCount := WordsCountTokens(words, tokens, sensitive)
 	_, maxIdx := IntFindMax(tokensCount)
+
+	if maxIdx < 0 {
+		return ""
+	}
 
 	return tokens[maxIdx]
 }
