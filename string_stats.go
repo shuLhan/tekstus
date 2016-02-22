@@ -5,6 +5,7 @@
 package tekstus
 
 import (
+	"strings"
 	"unicode"
 )
 
@@ -21,7 +22,7 @@ and
 
 'a' is not counted as 4 because it will breaked by space, so do 'f'.
 */
-func CountCharSequence(text string, nospace bool) (chars []rune, counts []int) {
+func CountCharSequence(text string) (chars []rune, counts []int) {
 	var lastv rune
 	count := 1
 	for _, v := range text {
@@ -50,8 +51,8 @@ GetMaxCharSequence return character which have maximum sequence in `text`.
 
 Example, given a text of string "aaa abcdee ffgf" it will return 'a' and 3.
 */
-func GetMaxCharSequence(text string, nospace bool) (char rune, count int) {
-	chars, counts := CountCharSequence(text, nospace)
+func GetMaxCharSequence(text string) (char rune, count int) {
+	chars, counts := CountCharSequence(text)
 
 	if len(chars) == 0 {
 		return 0, 0
@@ -260,5 +261,44 @@ func CountAlnumDistribution(text string) (chars []rune, values []int) {
 			values = append(values, 1)
 		}
 	}
+	return
+}
+
+/*
+StringCountTokens given a text, count how many tokens inside of it and return
+sum of all.
+*/
+func StringCountTokens(text string, tokens []string, sensitive bool) (
+	cnt int,
+) {
+	if !sensitive {
+		text = strings.ToLower(text)
+	}
+
+	for _, v := range tokens {
+		cnt += strings.Count(text, v)
+	}
+
+	return
+}
+
+/*
+StringFrequenciesOf return frequencies of tokens by counting each occurence
+of token and divide it with total words in text.
+*/
+func StringFrequenciesOf(text string, tokens []string, sensitive bool) (
+	freq float64,
+) {
+	if len(text) <= 0 {
+		return 0
+	}
+
+	textWords := StringSplitWords(text, false, false)
+	textWordsLen := float64(len(textWords))
+
+	tokensCnt := float64(StringCountTokens(text, tokens, sensitive))
+
+	freq = tokensCnt / textWordsLen
+
 	return
 }

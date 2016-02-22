@@ -9,30 +9,6 @@ import (
 	"testing"
 )
 
-var dataStringCountTokens = []struct {
-	line   string
-	tokens []string
-	exp    int
-}{
-	{
-		dataLines[0],
-		[]string{"//"},
-		1,
-	}, {
-		dataLines[3],
-		[]string{"[[", "]]", "<ref", "/ref>", "[http:"},
-		17,
-	},
-}
-
-func TestStringCountTokens(t *testing.T) {
-	for _, td := range dataStringCountTokens {
-		got := tekstus.StringCountTokens(td.line, td.tokens, false)
-
-		assert(t, td.exp, got, true)
-	}
-}
-
 var dataStringTrimNonAlnum = []struct {
 	text string
 	exp  string

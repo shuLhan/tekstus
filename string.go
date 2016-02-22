@@ -10,45 +10,6 @@ import (
 )
 
 /*
-StringCountTokens given a text, count how many tokens inside of it and return
-sum of all.
-*/
-func StringCountTokens(text string, tokens []string, sensitive bool) (
-	cnt int,
-) {
-	if !sensitive {
-		text = strings.ToLower(text)
-	}
-
-	for _, v := range tokens {
-		cnt += strings.Count(text, v)
-	}
-
-	return
-}
-
-/*
-StringFrequenciesOf return frequencies of tokens by counting each occurence
-of token and divide it with total words in text.
-*/
-func StringFrequenciesOf(text string, tokens []string, sensitive bool) (
-	freq float64,
-) {
-	if len(text) <= 0 {
-		return 0
-	}
-
-	textWords := StringSplitWords(text, false, false)
-	textWordsLen := float64(len(textWords))
-
-	tokensCnt := float64(StringCountTokens(text, tokens, sensitive))
-
-	freq = tokensCnt / textWordsLen
-
-	return
-}
-
-/*
 StringTrimNonAlnum remove non alpha-numeric character at the beginning and end
 for `text`.
 */

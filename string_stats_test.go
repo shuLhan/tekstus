@@ -36,10 +36,10 @@ var dataCharSequence = []struct {
 	},
 }
 
-func doCountCharSequence(t *testing.T, line string, nospace bool, expv []rune,
+func doCountCharSequence(t *testing.T, line string, expv []rune,
 	expc []int, expvtest, expctest bool,
 ) {
-	gotv, gotc := tekstus.CountCharSequence(line, nospace)
+	gotv, gotc := tekstus.CountCharSequence(line)
 
 	assert(t, expv, gotv, expvtest)
 	assert(t, expc, gotc, expctest)
@@ -47,7 +47,7 @@ func doCountCharSequence(t *testing.T, line string, nospace bool, expv []rune,
 
 func TestCountCharSequence(t *testing.T) {
 	for _, td := range dataCharSequence {
-		doCountCharSequence(t, td.line, td.nospace, td.expv, td.expc,
+		doCountCharSequence(t, td.line, td.expv, td.expc,
 			td.expvtest, td.expctest)
 	}
 }
@@ -66,7 +66,7 @@ var dataMaxCharSequence = []struct {
 
 func doGetMaxCharSequence(t *testing.T, line string, char rune, count int,
 	expvtest, expctest bool) {
-	gotv, gotc := tekstus.GetMaxCharSequence(line, true)
+	gotv, gotc := tekstus.GetMaxCharSequence(line)
 
 	assert(t, char, gotv, expvtest)
 	assert(t, count, gotc, expctest)
@@ -158,4 +158,28 @@ func TestCountCharDistribution(t *testing.T) {
 
 	assert(t, expchars, gotchars, true)
 	assert(t, expvalues, gotvalues, true)
+}
+
+var dataStringCountTokens = []struct {
+	line   string
+	tokens []string
+	exp    int
+}{
+	{
+		dataLines[0],
+		[]string{"//"},
+		1,
+	}, {
+		dataLines[3],
+		[]string{"[[", "]]", "<ref", "/ref>", "[http:"},
+		17,
+	},
+}
+
+func TestStringCountTokens(t *testing.T) {
+	for _, td := range dataStringCountTokens {
+		got := tekstus.StringCountTokens(td.line, td.tokens, false)
+
+		assert(t, td.exp, got, true)
+	}
 }
