@@ -12,7 +12,7 @@ import (
 CountCharSequence given a string, count number of repeated character more than
 one in sequence and return character and counting value.
 
-Example, given a line of string
+Example, given a text of string
 	"aaa abcdee ffgf"
 it will return
 	[a e f]
@@ -21,10 +21,10 @@ and
 
 'a' is not counted as 4 because it will breaked by space, so do 'f'.
 */
-func CountCharSequence(line string, nospace bool) (chars []rune, counts []int) {
+func CountCharSequence(text string, nospace bool) (chars []rune, counts []int) {
 	var lastv rune
 	count := 1
-	for _, v := range line {
+	for _, v := range text {
 		if v == lastv {
 			if !unicode.IsSpace(v) {
 				count++
@@ -46,12 +46,12 @@ func CountCharSequence(line string, nospace bool) (chars []rune, counts []int) {
 }
 
 /*
-GetMaxCharSequence return character which have maximum sequence in `line`.
+GetMaxCharSequence return character which have maximum sequence in `text`.
 
-Example, given a line of string "aaa abcdee ffgf" it will return 'a' and 3.
+Example, given a text of string "aaa abcdee ffgf" it will return 'a' and 3.
 */
-func GetMaxCharSequence(line string, nospace bool) (char rune, count int) {
-	chars, counts := CountCharSequence(line, nospace)
+func GetMaxCharSequence(text string, nospace bool) (char rune, count int) {
+	chars, counts := CountCharSequence(text, nospace)
 
 	if len(chars) == 0 {
 		return 0, 0
@@ -63,10 +63,10 @@ func GetMaxCharSequence(line string, nospace bool) (char rune, count int) {
 }
 
 /*
-CountUpperLowerChar return number of uppercase and lowercase in line.
+CountUpperLowerChar return number of uppercase and lowercase in text.
 */
-func CountUpperLowerChar(line string) (upper, lower int) {
-	for _, v := range line {
+func CountUpperLowerChar(text string) (upper, lower int) {
+	for _, v := range text {
 		if !unicode.IsLetter(v) {
 			continue
 		}
@@ -81,29 +81,40 @@ func CountUpperLowerChar(line string) (upper, lower int) {
 
 /*
 RatioUpperLowerChar compute and return ratio of uppercase with lowercase
-character in line.
+character in text.
 */
-func RatioUpperLowerChar(line string) float32 {
-	up, lo := CountUpperLowerChar(line)
+func RatioUpperLowerChar(text string) float64 {
+	if len(text) == 0 {
+		return 0
+	}
 
-	return float32(1+up) / float32(1+lo)
+	up, lo := CountUpperLowerChar(text)
+
+	return float64(1+up) / float64(1+lo)
 }
 
 /*
 RatioUpper compute and return ratio of uppercase character to all character in
-line.
+text.
 */
-func RatioUpper(line string) float32 {
-	up, lo := CountUpperLowerChar(line)
+func RatioUpper(text string) float64 {
+	if len(text) == 0 {
+		return 0
+	}
+	up, lo := CountUpperLowerChar(text)
 
-	return float32(1+up) / float32(1+up+lo)
+	return float64(1+up) / float64(1+up+lo)
 }
 
 /*
-CountDigit return number of digit in line.
+CountDigit return number of digit in text.
 */
-func CountDigit(line string) (n int) {
-	for _, v := range line {
+func CountDigit(text string) (n int) {
+	if len(text) == 0 {
+		return 0
+	}
+
+	for _, v := range text {
 		if unicode.IsDigit(v) {
 			n++
 		}
@@ -112,22 +123,29 @@ func CountDigit(line string) (n int) {
 }
 
 /*
-RatioDigit compute and return digit ratio to all characters in line.
+RatioDigit compute and return digit ratio to all characters in text.
 */
-func RatioDigit(line string) float32 {
-	n := CountDigit(line)
-	slen := len(line)
+func RatioDigit(text string) float64 {
+	textlen := len(text)
 
-	return float32(1+n) / float32(1+slen)
+	if textlen == 0 {
+		return 0
+	}
+
+	n := CountDigit(text)
+
+	return float64(1+n) / float64(1+textlen)
 }
 
 /*
-CountAlnumChar return number of alpha-numeric character in line and length of
-line.
+CountAlnumChar return number of alpha-numeric character in text.
 */
-func CountAlnumChar(line string) (n, l int) {
-	l = len(line)
-	for _, v := range line {
+func CountAlnumChar(text string) (n int) {
+	if len(text) == 0 {
+		return
+	}
+
+	for _, v := range text {
 		if unicode.IsDigit(v) || unicode.IsLetter(v) {
 			n++
 		}
@@ -137,26 +155,75 @@ func CountAlnumChar(line string) (n, l int) {
 
 /*
 RatioAlnumChar compute and return ratio of alpha-numeric with all character in
-line.
+text.
 */
-func RatioAlnumChar(line string) float32 {
-	n, length := CountAlnumChar(line)
+func RatioAlnumChar(text string) float64 {
+	textlen := len(text)
+	if textlen == 0 {
+		return 0
+	}
 
-	return float32(1+n) / float32(1+length)
+	n := CountAlnumChar(text)
+
+	return float64(n) / float64(textlen)
 }
 
 /*
-CountUniqChar count number of character in line without duplication and return
-it along with length of line.
-
-Example, if line is "aba" then it will count as 2 ("a", "b").
+CountNonAlnumChar return number of non alpha-numeric character in text.
+If `withspace` is true, it will be counted as non-alpha-numeric, if it false
+it will be skipped.
 */
-func CountUniqChar(line string) (n, l int) {
+func CountNonAlnumChar(text string, withspace bool) (n int) {
+	if len(text) == 0 {
+		return
+	}
+
+	for _, v := range text {
+		if unicode.IsDigit(v) || unicode.IsLetter(v) {
+			continue
+		}
+		if unicode.IsSpace(v) {
+			if withspace {
+				n++
+			}
+			continue
+		}
+		n++
+	}
+	return
+}
+
+/*
+RatioNonAlnumChar return ratio of non-alphanumeric character to all character
+in text.
+If `withspace` is true then white-space character will be counted as non-alpha
+numeric, otherwise it will be skipped.
+*/
+func RatioNonAlnumChar(text string, withspace bool) float64 {
+	textlen := len(text)
+	if textlen == 0 {
+		return 0
+	}
+
+	n := CountNonAlnumChar(text, withspace)
+
+	return float64(n) / float64(textlen)
+}
+
+/*
+CountUniqChar count number of character in text without duplication.
+
+Example, if text is "aba" then it will count as 2 ("a", "b").
+*/
+func CountUniqChar(text string) (n int) {
+	textlen := len(text)
+	if textlen == 0 {
+		return
+	}
+
 	var uchars []rune
 
-	l = len(line)
-
-	for _, v := range line {
+	for _, v := range text {
 		yes, _ := RunesContain(uchars, v)
 		if yes {
 			continue
@@ -168,15 +235,15 @@ func CountUniqChar(line string) (n, l int) {
 }
 
 /*
-CountAlnumDistribution count alpha-numeric characters in line.
+CountAlnumDistribution count distribution of alpha-numeric characters in text.
 
-Example, given a line "abbcccddddeeeee", it will return [a b c d e] and
+Example, given a text "abbcccddddeeeee", it will return [a b c d e] and
 [1 2 3 4 5].
 */
-func CountAlnumDistribution(line string) (chars []rune, values []int) {
+func CountAlnumDistribution(text string) (chars []rune, values []int) {
 	var found = false
 
-	for _, v := range line {
+	for _, v := range text {
 		if !(unicode.IsDigit(v) || unicode.IsLetter(v)) {
 			continue
 		}
