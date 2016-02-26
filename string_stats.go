@@ -276,6 +276,9 @@ func StringCountTokens(text string, tokens []string, sensitive bool) (
 	}
 
 	for _, v := range tokens {
+		if !sensitive {
+			v = strings.ToLower(v)
+		}
 		cnt += strings.Count(text, v)
 	}
 
