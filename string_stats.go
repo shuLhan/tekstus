@@ -271,6 +271,10 @@ sum of all.
 func StringCountTokens(text string, tokens []string, sensitive bool) (
 	cnt int,
 ) {
+	if len(text) == 0 {
+		return 0
+	}
+
 	if !sensitive {
 		text = strings.ToLower(text)
 	}
