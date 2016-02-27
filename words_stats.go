@@ -114,3 +114,31 @@ func WordsMaxCountOf(words []string, tokens []string, sensitive bool) string {
 
 	return tokens[maxIdx]
 }
+
+/*
+WordsCountMissRate given two slice of string, count number of string that is
+not equal with each other, and return the miss rate as
+
+	number of not equal / number of data
+
+missing count, and length of input `src`.
+*/
+func WordsCountMissRate(src []string, target []string) (
+	missrate float64,
+	nmiss, length int,
+) {
+	// find minimum length
+	length = len(src)
+	targetlen := len(target)
+	if targetlen < length {
+		length = targetlen
+	}
+
+	for x := 0; x < length; x++ {
+		if src[x] != target[x] {
+			nmiss++
+		}
+	}
+
+	return float64(nmiss) / float64(length), nmiss, length
+}

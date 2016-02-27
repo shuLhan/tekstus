@@ -29,3 +29,19 @@ func TestWordsFrequenciesOf(t *testing.T) {
 
 	assert(t, exp, got, true)
 }
+
+func TestWordsCountMissRate(t *testing.T) {
+	data := []string{"A", "B", "C", "D"}
+	test := []string{"A", "B", "C", "D"}
+	repl := []string{"B", "C", "D", "E"}
+	exps := []float64{0.25, 0.5, 0.75, 1.0}
+
+	got, _, _ := tekstus.WordsCountMissRate(data, test)
+	assert(t, 0.0, got, true)
+
+	for x, exp := range exps {
+		test[x] = repl[x]
+		got, _, _ = tekstus.WordsCountMissRate(data, test)
+		assert(t, exp, got, true)
+	}
+}
