@@ -5,7 +5,7 @@
 package tekstus
 
 import (
-	"github.com/golang/glog"
+	"fmt"
 )
 
 /*
@@ -123,8 +123,9 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 	seed := make(Strings, n)
 	copy(seed, *ss)
 
-	glog.V(1).Infof("%s Partitioning(%v,%v)\n",
-		createIndent(n), n, k)
+	if DEBUG >= 1 {
+		fmt.Printf("[tekstus] %s Partitioning(%v,%v)\n", createIndent(n), n, k)
+	}
 
 	// if only one split return the set contain only seed as list.
 	// input: {a,b,c},  output: {{a,b,c}}
@@ -149,21 +150,30 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 	// remove the first element from set
 	seed = append(seed[:0], seed[1:]...)
 
-	glog.V(1).Infof("%s el: %s, seed:", createIndent(n), el, seed)
+	if DEBUG >= 1 {
+		fmt.Printf("[tekstus] %s el: %s, seed:", createIndent(n), el, seed)
+	}
 
 	// generate child list
 	genTable := seed.Partitioning(k)
 
-	glog.V(1).Infof("%s genTable join: %v", createIndent(n), genTable)
+	if DEBUG >= 1 {
+		fmt.Printf("[tekstus] %s genTable join: %v", createIndent(n), genTable)
+	}
 
 	// join elemen with generated set
 	table = genTable.JoinCombination(el)
 
-	glog.V(1).Infof("%s join %s      : %v\n", createIndent(n), el, table)
+	if DEBUG >= 1 {
+		fmt.Printf("[tekstus] %s join %s      : %v\n", createIndent(n), el,
+			table)
+	}
 
 	genTable = seed.Partitioning(k - 1)
 
-	glog.V(1).Infof("%s genTable append :", createIndent(n), genTable)
+	if DEBUG >= 1 {
+		fmt.Printf("[tesktus] %s genTable append :", createIndent(n), genTable)
+	}
 
 	for _, lss := range genTable {
 		list := make(ListStrings, len(lss))
@@ -172,7 +182,10 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 		table = append(table, list)
 	}
 
-	glog.V(1).Infof("%s append %v      : %v\n", createIndent(n), el, table)
+	if DEBUG >= 1 {
+		fmt.Printf("[tesktus] %s append %v      : %v\n", createIndent(n), el,
+			table)
+	}
 
 	return
 }
