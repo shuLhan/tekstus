@@ -15,6 +15,19 @@ Each element of slice is in the form of ["a", ..., "n"]
 type Strings []string
 
 /*
+Normalize return slice of string.
+*/
+func (ss *Strings) Normalize() []string {
+	ls := make([]string, len(*ss))
+
+	for x, v := range *ss {
+		ls[x] = v
+	}
+
+	return ls
+}
+
+/*
 IsEqual compare elements of two slice of string without regard to
 their order
 
@@ -48,11 +61,11 @@ func (ss *Strings) IsEqual(b Strings) bool {
 }
 
 /*
-IsContain return true if slice of string contain elemen `el`,
-otherwise return false.
+StringsIsContain return true if elemen `el` is in slice of string `ss`, otherwise
+return false.
 */
-func (ss *Strings) IsContain(el string) bool {
-	for _, s := range *ss {
+func StringsIsContain(ss Strings, el string) bool {
+	for _, s := range ss {
 		if s == el {
 			return true
 		}

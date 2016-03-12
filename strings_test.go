@@ -25,6 +25,35 @@ func TestStringsIsEqual(t *testing.T) {
 	}
 }
 
+func TestStringsIsContain(t *testing.T) {
+	ss := tekstus.Strings{
+		"a", "b", "c", "d",
+	}
+	ss2 := []string{
+		"a", "b", "c", "d",
+	}
+
+	// Testing true positive
+	got := tekstus.StringsIsContain(ss, "a")
+
+	assert(t, true, got, true)
+
+	// Testing true negative
+	got = tekstus.StringsIsContain(ss, "e")
+
+	assert(t, false, got, true)
+
+	// Testing true positive
+	got = tekstus.StringsIsContain(ss2, "a")
+
+	assert(t, true, got, true)
+
+	// Testing true negative
+	got = tekstus.StringsIsContain(ss2, "e")
+
+	assert(t, false, got, true)
+}
+
 func TestPartitioning(t *testing.T) {
 	lss := tekstus.ListStrings{
 		{"a", "b", "c"},
