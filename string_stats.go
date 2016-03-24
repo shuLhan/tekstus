@@ -91,7 +91,11 @@ func RatioUpperLowerChar(text string) float64 {
 
 	up, lo := CountUpperLowerChar(text)
 
-	return float64(1+up) / float64(1+lo)
+	if lo == 0 {
+		return float64(up)
+	}
+
+	return float64(up) / float64(lo)
 }
 
 /*
@@ -104,7 +108,12 @@ func RatioUpper(text string) float64 {
 	}
 	up, lo := CountUpperLowerChar(text)
 
-	return float64(1+up) / float64(1+up+lo)
+	total := up + lo
+	if total == 0 {
+		return 0
+	}
+
+	return float64(up) / float64(total)
 }
 
 /*
@@ -135,7 +144,11 @@ func RatioDigit(text string) float64 {
 
 	n := CountDigit(text)
 
-	return float64(1+n) / float64(1+textlen)
+	if n == 0 {
+		return 0
+	}
+
+	return float64(n) / float64(textlen)
 }
 
 /*
