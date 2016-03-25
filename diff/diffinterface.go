@@ -56,9 +56,9 @@ func ReadLines(f string) (lines tekstus.Lines, e error) {
 		n++
 	}
 
-	fd.Close()
+	e = fd.Close()
 
-	return lines, nil
+	return lines, e
 }
 
 /*
