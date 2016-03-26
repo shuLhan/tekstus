@@ -69,3 +69,13 @@ func IntSum(data []int) (sum int) {
 	}
 	return
 }
+
+//
+// Int64Sum return sum of all integer value.
+//
+func Int64Sum(data []int64) (sum int64) {
+	for _, v := range data {
+		sum += v
+	}
+	return
+}
