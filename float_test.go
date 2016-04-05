@@ -16,3 +16,13 @@ func TestFloat64Sum(t *testing.T) {
 
 	assert(t, exp, got, true)
 }
+
+func TestFloat64Counts(t *testing.T) {
+	data := []float64{1, 1, 2, 2, 3, 1, 2}
+	classes := []float64{1, 2, 3}
+	exp := []int{3, 3, 1}
+
+	got := tekstus.Float64Counts(&data, &classes)
+
+	assert(t, exp, got, true)
+}
