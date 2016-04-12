@@ -45,3 +45,18 @@ func TestIntSum(t *testing.T) {
 
 	assert(t, exp, got, true)
 }
+
+func TestInt64MaxCountOf(t *testing.T) {
+	data := []int64{0, 1, 0, 1, 0, 1, 0, 1, 0}
+	classes := []int64{0, 1}
+	exp := int64(0)
+	got := tekstus.Int64MaxCountOf(data, classes)
+
+	assert(t, exp, got, true)
+
+	// Swap the class values.
+	classes = []int64{1, 0}
+	got = tekstus.Int64MaxCountOf(data, classes)
+
+	assert(t, exp, got, true)
+}
