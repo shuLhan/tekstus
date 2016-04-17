@@ -26,3 +26,13 @@ func TestFloat64Counts(t *testing.T) {
 
 	assert(t, exp, got, true)
 }
+
+func TestFloat64FindMax(t *testing.T) {
+	data := []float64{1, 1.1, 1.2, 1.3, 1.4, -6}
+	expv := 1.4
+	expi := 4
+	gotv, goti := tekstus.Float64FindMax(data)
+
+	assert(t, expv, gotv, true)
+	assert(t, expi, goti, true)
+}

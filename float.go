@@ -5,6 +5,33 @@
 package tekstus
 
 //
+// Float64FindMax given slice of float, return the maximum value in slice and
+// index of maximum value.  If data is empty, return -1 in value and index.
+//
+// Example, given data: [0.0 0.1 0.2 0.2 0.4], it will return 0.4 as max and 4
+// as index of maximum value.
+//
+func Float64FindMax(data []float64) (maxv float64, maxi int) {
+	l := len(data)
+	if l <= 0 {
+		return -1, -1
+	}
+
+	x := 0
+	maxv = data[x]
+	maxi = x
+
+	for x = 1; x < l; x++ {
+		if data[x] > maxv {
+			maxv = data[x]
+			maxi = x
+		}
+	}
+
+	return maxv, maxi
+}
+
+//
 // Float64Sum return sum of slice of float64.
 //
 func Float64Sum(data []float64) (sum float64) {
