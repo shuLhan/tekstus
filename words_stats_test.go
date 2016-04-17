@@ -45,3 +45,13 @@ func TestWordsCountMissRate(t *testing.T) {
 		assert(t, exp, got, true)
 	}
 }
+
+func TestWordsProbabilitiesOf(t *testing.T) {
+	words := []string{"a", "b", "a", "b", "a", "c"}
+	tokens := []string{"a", "b"}
+	exp := []float64{0.5, 0.3333333333333333}
+
+	got := tekstus.WordsProbabilitiesOf(words, tokens, false)
+
+	assert(t, exp, got, true)
+}

@@ -76,7 +76,7 @@ func WordsFrequencyOf(words []string, token string, sensitive bool) float64 {
 /*
 WordsFrequenciesOf return total frequency of tokens in words.
 */
-func WordsFrequenciesOf(words []string, tokens []string, sensitive bool) (
+func WordsFrequenciesOf(words, tokens []string, sensitive bool) (
 	sumfreq float64,
 ) {
 	if len(words) <= 0 || len(tokens) <= 0 {
@@ -87,6 +87,29 @@ func WordsFrequenciesOf(words []string, tokens []string, sensitive bool) (
 		sumfreq += WordsFrequencyOf(words, token, sensitive)
 	}
 	return
+}
+
+//
+// WordsProbabilitiesOf will compute each probability of token in word, and
+// return it as a slice of float.
+//
+// Example,
+//
+//	words: ["A", "B", "A"]
+//	tokens:["A", "B"]
+//
+// It will return: [0.5, 1].
+//
+func WordsProbabilitiesOf(words, tokens []string, sensitive bool) (
+	probs []float64,
+) {
+	probs = make([]float64, len(tokens))
+
+	for x, token := range tokens {
+		probs[x] = WordsFrequencyOf(words, token, sensitive)
+	}
+
+	return probs
 }
 
 /*
