@@ -97,3 +97,13 @@ func TestPartitioning2(t *testing.T) {
 		}
 	}
 }
+
+func TestStringsSortByIndex(t *testing.T) {
+	dat := []string{"Z", "X", "C", "V", "B", "N", "M"}
+	exp := []string{"B", "C", "M", "N", "V", "X", "Z"}
+	ids := []int{4, 2, 6, 5, 3, 1, 0}
+
+	tekstus.StringsSortByIndex(&dat, ids)
+
+	assert(t, exp, dat, true)
+}

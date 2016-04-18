@@ -202,3 +202,30 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 
 	return
 }
+
+//
+// StringsSortByIndex will sort the slice of string `d` using sorted index
+// `sortedIds`.
+//
+func StringsSortByIndex(d *[]string, sortedIds []int) {
+	newd := make([]string, len(*d))
+
+	for i := range sortedIds {
+		newd[i] = (*d)[sortedIds[i]]
+	}
+
+	(*d) = newd
+}
+
+//
+// StringsSwap swap two indices value of string.
+//
+func StringsSwap(d []string, x, y int) {
+	if x == y {
+		return
+	}
+
+	tmp := d[x]
+	d[x] = d[y]
+	d[y] = tmp
+}
