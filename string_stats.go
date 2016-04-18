@@ -5,6 +5,7 @@
 package tekstus
 
 import (
+	"github.com/shuLhan/numerus"
 	"strings"
 	"unicode"
 )
@@ -58,7 +59,7 @@ func GetMaxCharSequence(text string) (char rune, count int) {
 		return 0, 0
 	}
 
-	_, idx := IntFindMax(counts)
+	_, idx, _ := numerus.IntsFindMax(counts)
 
 	return chars[idx], counts[idx]
 }

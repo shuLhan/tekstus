@@ -5,6 +5,7 @@
 package tekstus
 
 import (
+	"github.com/shuLhan/numerus"
 	"strings"
 )
 
@@ -129,9 +130,9 @@ func WordsMaxCountOf(words []string, tokens []string, sensitive bool) string {
 	}
 
 	tokensCount := WordsCountTokens(words, tokens, sensitive)
-	_, maxIdx := IntFindMax(tokensCount)
+	_, maxIdx, ok := numerus.IntsFindMax(tokensCount)
 
-	if maxIdx < 0 {
+	if !ok {
 		return ""
 	}
 
