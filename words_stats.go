@@ -99,7 +99,7 @@ func WordsFrequenciesOf(words, tokens []string, sensitive bool) (
 //	words: ["A", "B", "A"]
 //	tokens:["A", "B"]
 //
-// It will return: [0.5, 1].
+// It will return: [0.6, 0.3].
 //
 func WordsProbabilitiesOf(words, tokens []string, sensitive bool) (
 	probs []float64,
