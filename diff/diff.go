@@ -1,10 +1,10 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-/*
-Package diff implement text comparison.
-*/
+//
+// Package diff implement text comparison.
+//
 package diff
 
 import (
@@ -17,41 +17,41 @@ var (
 	DefDelimiter = byte('\n')
 )
 
-/*
-Data represent additions, deletions, and changes between two text.
-*/
+//
+// Data represent additions, deletions, and changes between two text.
+//
 type Data struct {
 	Adds    tekstus.Lines
 	Dels    tekstus.Lines
 	Changes LineChanges
 }
 
-/*
-PushAdd will add new line to diff set.
-*/
+//
+// PushAdd will add new line to diff set.
+//
 func (diffs *Data) PushAdd(new tekstus.Line) {
 	diffs.Adds = append(diffs.Adds, new)
 }
 
-/*
-PushDel will add deletion line to diff set.
-*/
+//
+// PushDel will add deletion line to diff set.
+//
 func (diffs *Data) PushDel(old tekstus.Line) {
 	diffs.Dels = append(diffs.Dels, old)
 }
 
-/*
-PushChange set to diff data.
-*/
+//
+// PushChange set to diff data.
+//
 func (diffs *Data) PushChange(old, new tekstus.Line) {
 	change := NewLineChange(old, new)
 
 	diffs.Changes = append(diffs.Changes, *change)
 }
 
-/*
-GetAllAdds return chunks of additions including in line changes.
-*/
+//
+// GetAllAdds return chunks of additions including in line changes.
+//
 func (diffs *Data) GetAllAdds() (chunks tekstus.Chunks) {
 	for _, add := range diffs.Adds {
 		chunks = append(chunks, tekstus.Chunk{StartAt: 0, V: add.V})
@@ -60,9 +60,9 @@ func (diffs *Data) GetAllAdds() (chunks tekstus.Chunks) {
 	return
 }
 
-/*
-GetAllDels return chunks of deletions including in line changes.
-*/
+//
+// GetAllDels return chunks of deletions including in line changes.
+//
 func (diffs *Data) GetAllDels() (chunks tekstus.Chunks) {
 	for _, del := range diffs.Dels {
 		chunks = append(chunks, tekstus.Chunk{StartAt: 0, V: del.V})
@@ -71,9 +71,9 @@ func (diffs *Data) GetAllDels() (chunks tekstus.Chunks) {
 	return
 }
 
-/*
-String return formatted data.
-*/
+//
+// String return formatted data.
+//
 func (diffs Data) String() (s string) {
 	s += "Diffs:\n"
 

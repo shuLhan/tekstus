@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,9 +9,9 @@ import (
 	"strings"
 )
 
-/*
-WordsCountToken will return number of token occurence in words.
-*/
+//
+// WordsCountToken will return number of token occurence in words.
+//
 func WordsCountToken(words []string, token string, sensitive bool) (cnt int) {
 
 	if !sensitive {
@@ -30,17 +30,17 @@ func WordsCountToken(words []string, token string, sensitive bool) (cnt int) {
 	return
 }
 
-/*
-WordsCountTokens count number of occurrence of each `tokens` values in words.
-Return number of each tokens based on their index.
-
-For example, if words is "[A,A,B]" and tokens is "[A,B]", this function will
-return "[2,1]".
-
-	idx cls  count
-	0 : A -> 2
-	1 : B -> 1
-*/
+//
+// WordsCountTokens count number of occurrence of each `tokens` values in words.
+// Return number of each tokens based on their index.
+//
+// For example, if words is "[A,A,B]" and tokens is "[A,B]", this function
+// will return "[2,1]".
+//
+//	idx cls  count
+//	0 : A -> 2
+//	1 : B -> 1
+//
 func WordsCountTokens(words []string, tokens []string, sensitive bool) (
 	clsCnt []int,
 ) {
@@ -58,11 +58,11 @@ func WordsCountTokens(words []string, tokens []string, sensitive bool) (
 	return
 }
 
-/*
-WordsFrequencyOf return frequency of token in words using
-
-	count-of-token / total-words
-*/
+//
+// WordsFrequencyOf return frequency of token in words using
+//
+//	count-of-token / total-words
+//
 func WordsFrequencyOf(words []string, token string, sensitive bool) float64 {
 	wordslen := float64(len(words))
 	if wordslen <= 0 {
@@ -74,9 +74,9 @@ func WordsFrequencyOf(words []string, token string, sensitive bool) float64 {
 	return float64(cnt) / wordslen
 }
 
-/*
-WordsFrequenciesOf return total frequency of tokens in words.
-*/
+//
+// WordsFrequenciesOf return total frequency of tokens in words.
+//
 func WordsFrequenciesOf(words, tokens []string, sensitive bool) (
 	sumfreq float64,
 ) {
@@ -113,17 +113,17 @@ func WordsProbabilitiesOf(words, tokens []string, sensitive bool) (
 	return probs
 }
 
-/*
-WordsMaxCountOf return the string that has highest frequency.
-
-Example, given input
-
-	words:  [A A B A B C C]
-	tokens: [A B]
-
-it will return A as the majority tokens in words.
-If tokens has equal frequency, then the first tokens in order will returned.
-*/
+//
+// WordsMaxCountOf return the string that has highest frequency.
+//
+// Example, given input
+//
+//	words:  [A A B A B C C]
+//	tokens: [A B]
+//
+// it will return A as the majority tokens in words.
+// If tokens has equal frequency, then the first tokens in order will returned.
+//
 func WordsMaxCountOf(words []string, tokens []string, sensitive bool) string {
 	if len(words) <= 0 {
 		return ""
@@ -139,14 +139,14 @@ func WordsMaxCountOf(words []string, tokens []string, sensitive bool) string {
 	return tokens[maxIdx]
 }
 
-/*
-WordsCountMissRate given two slice of string, count number of string that is
-not equal with each other, and return the miss rate as
-
-	number of not equal / number of data
-
-missing count, and length of input `src`.
-*/
+//
+// WordsCountMissRate given two slice of string, count number of string that is
+// not equal with each other, and return the miss rate as
+//
+//	number of not equal / number of data
+//
+// missing count, and length of input `src`.
+//
 func WordsCountMissRate(src []string, target []string) (
 	missrate float64,
 	nmiss, length int,

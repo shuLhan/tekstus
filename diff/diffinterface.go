@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -29,9 +29,9 @@ const (
 	DefMatchRatio = 0.7
 )
 
-/*
-ReadLines return lines in the file `f`.
-*/
+//
+// ReadLines return lines in the file `f`.
+//
 func ReadLines(f string) (lines tekstus.Lines, e error) {
 	fd, e := os.Open(f)
 
@@ -61,9 +61,10 @@ func ReadLines(f string) (lines tekstus.Lines, e error) {
 	return lines, e
 }
 
-/*
-Bytes compare two slice of bytes and return true if equal or false otherwise.
-*/
+//
+// Bytes compare two slice of bytes and return true if equal or false
+// otherwise.
+//
 func Bytes(oldb, newb []byte) (equal bool) {
 	oldblen := len(oldb)
 	newblen := len(newb)
@@ -94,13 +95,13 @@ func Bytes(oldb, newb []byte) (equal bool) {
 	return false
 }
 
-/*
-BytesRatio compare two slice of bytes and return ratio of matching bytes.
-The ratio in in range of 0.0 to 1.0, where 1.0 if both are similar, and 0.0 if
-no matchs even found.
-`minTokenLen` define the minimum length of token for searching in both of
-slice.
-*/
+//
+// BytesRatio compare two slice of bytes and return ratio of matching bytes.
+// The ratio in in range of 0.0 to 1.0, where 1.0 if both are similar, and 0.0
+// if no matchs even found.
+// `minTokenLen` define the minimum length of token for searching in both of
+// slice.
+//
 func BytesRatio(old, new []byte, minTokenLen int) (
 	ratio float32, m int, maxlen int,
 ) {
@@ -204,11 +205,11 @@ func BytesRatio(old, new []byte, minTokenLen int) (
 	return ratio, m, maxlen
 }
 
-/*
-findLine return true if line is found in text beginning at line `startat`.
-It also return line number of matching line.
-If no match found, it will return false and `startat` value.
-*/
+//
+// findLine return true if line is found in text beginning at line `startat`.
+// It also return line number of matching line.
+// If no match found, it will return false and `startat` value.
+//
 func findLine(line tekstus.Line, text tekstus.Lines, startat int) (
 	found bool,
 	n int,
@@ -226,9 +227,9 @@ func findLine(line tekstus.Line, text tekstus.Lines, startat int) (
 	return false, startat
 }
 
-/*
-Files compare two files.
-*/
+//
+// Files compare two files.
+//
 func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 	oldlines, e := ReadLines(oldf)
 	if e != nil {
@@ -395,42 +396,40 @@ func Files(oldf, newf string, difflevel int) (diffs Data, e error) {
 	return diffs, e
 }
 
-/*
-Lines given two similar lines, find and return the differences (additions and
-deletion) between them.
-
-Case 1: addition on new or deletion on old.
-
-	old: 00000
-	new: 00000111
-
-or
-
-	old: 00000111
-	new: 00000
-
-Case 2: addition on new line
-
-	old: 000000
-	new: 0001000
-
-Case 3: deletion on old line (reverse of case 2)
-
-	old: 0001000
-	new: 000000
-
-Case 4: change happened in the beginning
-
-	old: 11000
-	new: 22000
-
-Case 5: both changed
-
-	old: 0001000
-	new: 0002000
-
-
-*/
+//
+// Lines given two similar lines, find and return the differences (additions and
+// deletion) between them.
+//
+// Case 1: addition on new or deletion on old.
+//
+//	old: 00000
+//	new: 00000111
+//
+// or
+//
+//	old: 00000111
+//	new: 00000
+//
+// Case 2: addition on new line
+//
+//	old: 000000
+//	new: 0001000
+//
+// Case 3: deletion on old line (reverse of case 2)
+//
+//	old: 0001000
+//	new: 000000
+//
+// Case 4: change happened in the beginning
+//
+//	old: 11000
+//	new: 22000
+//
+// Case 5: both changed
+//
+//	old: 0001000
+//	new: 0002000
+//
 func Lines(old, new []byte, atx, aty int) (adds, dels tekstus.Chunks) {
 	oldlen := len(old)
 	newlen := len(new)

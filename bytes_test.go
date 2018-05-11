@@ -5,7 +5,6 @@
 package tekstus_test
 
 import (
-	_ "fmt"
 	"github.com/shuLhan/tekstus"
 	"testing"
 )
@@ -37,12 +36,12 @@ func TestBytesFind(t *testing.T) {
 	testBytesFind(t, line, token, 0, exp)
 
 	token = []byte(".")
-	exp = []int{40, 46, 67}
+	exp = []int{42, 48, 69}
 
 	testBytesFind(t, line, token, 0, exp)
 
 	token = []byte("d.")
-	exp = []int{66}
+	exp = []int{68}
 
 	testBytesFind(t, line, token, 0, exp)
 }
@@ -61,21 +60,21 @@ func TestBytesEncapsulate(t *testing.T) {
 	token := []byte("/")
 	leftcap := []byte("\\")
 	rightcap := []byte{}
-	exp := []byte("\\/\\/ Copyright 2016 Mhd Sulhan \"<ms@kilabit.info>\". All rights reserved.")
+	exp := []byte("\\/\\/ Copyright 2016-2018 Shulhan \"<ms@kilabit.info>\". All rights reserved.")
 
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
 
 	token = []byte("<")
 	leftcap = []byte("<")
 	rightcap = []byte(" ")
-	exp = []byte("// Copyright 2016 Mhd Sulhan \"<< ms@kilabit.info>\". All rights reserved.")
+	exp = []byte("// Copyright 2016-2018 Shulhan \"<< ms@kilabit.info>\". All rights reserved.")
 
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
 
 	token = []byte("\"")
 	leftcap = []byte("\\")
 	rightcap = []byte(" ")
-	exp = []byte("// Copyright 2016 Mhd Sulhan \\\" <ms@kilabit.info>\\\" . All rights reserved.")
+	exp = []byte("// Copyright 2016-2018 Shulhan \\\" <ms@kilabit.info>\\\" . All rights reserved.")
 
 	testEncasulateToken(t, token, line, leftcap, rightcap, exp)
 }

@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-/*
-WordsUniq remove duplicate word from `words`. If sensitive is true then
-compare the string with case sensitive.
-
-Return the list of unique words.
-*/
+//
+// WordsUniq remove duplicate word from `words`. If sensitive is true then
+// compare the string with case sensitive.
+//
+// Return the list of unique words.
+//
 func WordsUniq(words []string, sensitive bool) (uniques []string) {
 	// Remove duplicate values.
 	wordslen := len(words)
@@ -51,12 +51,12 @@ func WordsUniq(words []string, sensitive bool) (uniques []string) {
 	return
 }
 
-/*
-WordsFindLongest find the longest word in words and return their value and
-index.
-
-If words is empty return nil string with negative (-1) index.
-*/
+//
+// WordsFindLongest find the longest word in words and return their value and
+// index.
+//
+// If words is empty return nil string with negative (-1) index.
+//
 func WordsFindLongest(words []string) (slong string, idx int) {
 	if len(words) <= 0 {
 		return "", -1

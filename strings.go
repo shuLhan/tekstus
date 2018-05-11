@@ -8,15 +8,15 @@ import (
 	"fmt"
 )
 
-/*
-Strings is for working with element of list with type is string.
-Each element of slice is in the form of ["a", ..., "n"]
-*/
+//
+// Strings is for working with element of list with type is string.
+// Each element of slice is in the form of ["a", ..., "n"]
+//
 type Strings []string
 
-/*
-Normalize return slice of string.
-*/
+//
+// Normalize return slice of string.
+//
 func (ss *Strings) Normalize() []string {
 	ls := make([]string, len(*ss))
 
@@ -27,14 +27,14 @@ func (ss *Strings) Normalize() []string {
 	return ls
 }
 
-/*
-IsEqual compare elements of two slice of string without regard to
-their order
-
-	{"a","b"} == {"b","a"} is true
-
-Return true if each both slice have the same elements, false otherwise.
-*/
+//
+// IsEqual compare elements of two slice of string without regard to
+// their order
+//
+//	{"a","b"} == {"b","a"} is true
+//
+// Return true if each both slice have the same elements, false otherwise.
+//
 func (ss *Strings) IsEqual(b Strings) bool {
 	sslen := len(*ss)
 
@@ -60,10 +60,10 @@ func (ss *Strings) IsEqual(b Strings) bool {
 	return true
 }
 
-/*
-StringsIsContain return true if elemen `el` is in slice of string `ss`, otherwise
-return false.
-*/
+//
+// StringsIsContain return true if elemen `el` is in slice of string `ss`,
+// otherwise return false.
+//
 func StringsIsContain(ss Strings, el string) bool {
 	for _, s := range ss {
 		if s == el {
@@ -73,16 +73,16 @@ func StringsIsContain(ss Strings, el string) bool {
 	return false
 }
 
-/*
-SinglePartition create a table from a set of string, where each elemen in a set
-become a single set.
-
-Input: [a,b,c]
-output:
-    [
-        [[a],[b],[c]]
-    ]
-*/
+//
+// SinglePartition create a table from a set of string, where each elemen in a
+// set become a single set.
+//
+// Input: [a,b,c]
+// output:
+//    [
+//        [[a],[b],[c]]
+//    ]
+//
 func (ss *Strings) SinglePartition() (table TableStrings) {
 	list := make(ListStrings, len(*ss))
 
@@ -94,9 +94,9 @@ func (ss *Strings) SinglePartition() (table TableStrings) {
 	return
 }
 
-/*
-createIndent will create n space indentation and return it.
-*/
+//
+// createIndent will create n space indentation and return it.
+//
 func createIndent(n int) (s string) {
 	for i := 0; i < n; i++ {
 		s += " "
@@ -104,33 +104,33 @@ func createIndent(n int) (s string) {
 	return
 }
 
-/*
-Partitioning will group the set's element `orgseed` into non-empty
-lists, in such a way that every element is included in one and only of the
-lists.
-
-Given a list of element in `orgseed`, and number of partition `k`, return
-the set of all group of all elements without duplication.
-
-For example, the set {a,b,c} if partitioned into 2 group will result in set
-
-	{
-		{{a,b},{c}},
-		{{a,c},{b}},
-		{{a},{b,c}},
-	}
-
-if partitioned into 3 group (k=3) will result in,
-
-	{
-		{{a},{b},{c}},
-	}
-
-Number of possible list can be computed using Stirling number of second kind.
-
-For more information see,
-- https://en.wikipedia.org/wiki/Partition_of_a_set
-*/
+//
+// Partitioning will group the set's element `orgseed` into non-empty
+// lists, in such a way that every element is included in one and only of the
+// lists.
+//
+// Given a list of element in `orgseed`, and number of partition `k`, return
+// the set of all group of all elements without duplication.
+//
+// For example, the set {a,b,c} if partitioned into 2 group will result in set
+//
+//	{
+//		{{a,b},{c}},
+//		{{a,c},{b}},
+//		{{a},{b,c}},
+//	}
+//
+// if partitioned into 3 group (k=3) will result in,
+//
+//	{
+//		{{a},{b},{c}},
+//	}
+//
+// Number of possible list can be computed using Stirling number of second kind.
+//
+// For more information see,
+// - https://en.wikipedia.org/wiki/Partition_of_a_set
+//
 func (ss *Strings) Partitioning(k int) (table TableStrings) {
 	n := len(*ss)
 	seed := make(Strings, n)

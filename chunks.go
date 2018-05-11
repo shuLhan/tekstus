@@ -1,17 +1,17 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tekstus
 
-/*
-Chunks represent a set of chunk.
-*/
+//
+// Chunks represent a set of chunk.
+//
 type Chunks []Chunk
 
-/*
-Join all chunk's values using `sep` as separator and return it.
-*/
+//
+// Join all chunk's values using `sep` as separator and return it.
+//
 func (chunks *Chunks) Join(sep string) (s string) {
 	chunkslen := len(*chunks) - 1
 

@@ -10,19 +10,19 @@ import (
 	"unicode"
 )
 
-/*
-CountCharSequence given a string, count number of repeated character more than
-one in sequence and return character and counting value.
-
-Example, given a text of string
-	"aaa abcdee ffgf"
-it will return
-	[a e f]
-and
-	[3 2 2]
-
-'a' is not counted as 4 because it will breaked by space, so do 'f'.
-*/
+//
+// CountCharSequence given a string, count number of repeated character more
+// than one in sequence and return character and counting value.
+//
+// Example, given a text of string
+//	"aaa abcdee ffgf"
+// it will return
+//	[a e f]
+// and
+//	[3 2 2]
+//
+// 'a' is not counted as 4 because it will breaked by space, so do 'f'.
+//
 func CountCharSequence(text string) (chars []rune, counts []int) {
 	var lastv rune
 	count := 1
@@ -47,11 +47,11 @@ func CountCharSequence(text string) (chars []rune, counts []int) {
 	return
 }
 
-/*
-GetMaxCharSequence return character which have maximum sequence in `text`.
-
-Example, given a text of string "aaa abcdee ffgf" it will return 'a' and 3.
-*/
+//
+// GetMaxCharSequence return character which have maximum sequence in `text`.
+//
+// Example, given a text of string "aaa abcdee ffgf" it will return 'a' and 3.
+//
 func GetMaxCharSequence(text string) (char rune, count int) {
 	chars, counts := CountCharSequence(text)
 
@@ -64,9 +64,9 @@ func GetMaxCharSequence(text string) (char rune, count int) {
 	return chars[idx], counts[idx]
 }
 
-/*
-CountUpperLowerChar return number of uppercase and lowercase in text.
-*/
+//
+// CountUpperLowerChar return number of uppercase and lowercase in text.
+//
 func CountUpperLowerChar(text string) (upper, lower int) {
 	for _, v := range text {
 		if !unicode.IsLetter(v) {
@@ -81,10 +81,10 @@ func CountUpperLowerChar(text string) (upper, lower int) {
 	return
 }
 
-/*
-RatioUpperLowerChar compute and return ratio of uppercase with lowercase
-character in text.
-*/
+//
+// RatioUpperLowerChar compute and return ratio of uppercase with lowercase
+// character in text.
+//
 func RatioUpperLowerChar(text string) float64 {
 	if len(text) == 0 {
 		return 0
@@ -99,10 +99,10 @@ func RatioUpperLowerChar(text string) float64 {
 	return float64(up) / float64(lo)
 }
 
-/*
-RatioUpper compute and return ratio of uppercase character to all character in
-text.
-*/
+//
+// RatioUpper compute and return ratio of uppercase character to all character
+// in text.
+//
 func RatioUpper(text string) float64 {
 	if len(text) == 0 {
 		return 0
@@ -117,9 +117,9 @@ func RatioUpper(text string) float64 {
 	return float64(up) / float64(total)
 }
 
-/*
-CountDigit return number of digit in text.
-*/
+//
+// CountDigit return number of digit in text.
+//
 func CountDigit(text string) (n int) {
 	if len(text) == 0 {
 		return 0
@@ -133,9 +133,9 @@ func CountDigit(text string) (n int) {
 	return
 }
 
-/*
-RatioDigit compute and return digit ratio to all characters in text.
-*/
+//
+// RatioDigit compute and return digit ratio to all characters in text.
+//
 func RatioDigit(text string) float64 {
 	textlen := len(text)
 
@@ -152,9 +152,9 @@ func RatioDigit(text string) float64 {
 	return float64(n) / float64(textlen)
 }
 
-/*
-CountAlnumChar return number of alpha-numeric character in text.
-*/
+//
+// CountAlnumChar return number of alpha-numeric character in text.
+//
 func CountAlnumChar(text string) (n int) {
 	if len(text) == 0 {
 		return
@@ -168,10 +168,10 @@ func CountAlnumChar(text string) (n int) {
 	return
 }
 
-/*
-RatioAlnumChar compute and return ratio of alpha-numeric with all character in
-text.
-*/
+//
+// RatioAlnumChar compute and return ratio of alpha-numeric with all character
+// in text.
+//
 func RatioAlnumChar(text string) float64 {
 	textlen := len(text)
 	if textlen == 0 {
@@ -183,11 +183,11 @@ func RatioAlnumChar(text string) float64 {
 	return float64(n) / float64(textlen)
 }
 
-/*
-CountNonAlnumChar return number of non alpha-numeric character in text.
-If `withspace` is true, it will be counted as non-alpha-numeric, if it false
-it will be skipped.
-*/
+//
+// CountNonAlnumChar return number of non alpha-numeric character in text.
+// If `withspace` is true, it will be counted as non-alpha-numeric, if it
+// false it will be skipped.
+//
 func CountNonAlnumChar(text string, withspace bool) (n int) {
 	if len(text) == 0 {
 		return
@@ -208,12 +208,12 @@ func CountNonAlnumChar(text string, withspace bool) (n int) {
 	return
 }
 
-/*
-RatioNonAlnumChar return ratio of non-alphanumeric character to all character
-in text.
-If `withspace` is true then white-space character will be counted as non-alpha
-numeric, otherwise it will be skipped.
-*/
+//
+// RatioNonAlnumChar return ratio of non-alphanumeric character to all
+// character in text.
+// If `withspace` is true then white-space character will be counted as
+// non-alpha numeric, otherwise it will be skipped.
+//
 func RatioNonAlnumChar(text string, withspace bool) float64 {
 	textlen := len(text)
 	if textlen == 0 {
@@ -225,11 +225,11 @@ func RatioNonAlnumChar(text string, withspace bool) float64 {
 	return float64(n) / float64(textlen)
 }
 
-/*
-CountUniqChar count number of character in text without duplication.
-
-Example, if text is "aba" then it will count as 2 ("a", "b").
-*/
+//
+// CountUniqChar count number of character in text without duplication.
+//
+// Example, if text is "aba" then it will count as 2 ("a", "b").
+//
 func CountUniqChar(text string) (n int) {
 	textlen := len(text)
 	if textlen == 0 {
@@ -249,12 +249,13 @@ func CountUniqChar(text string) (n int) {
 	return
 }
 
-/*
-CountAlnumDistribution count distribution of alpha-numeric characters in text.
-
-Example, given a text "abbcccddddeeeee", it will return [a b c d e] and
-[1 2 3 4 5].
-*/
+//
+// CountAlnumDistribution count distribution of alpha-numeric characters in
+// text.
+//
+// Example, given a text "abbcccddddeeeee", it will return [a b c d e] and
+// [1 2 3 4 5].
+//
 func CountAlnumDistribution(text string) (chars []rune, values []int) {
 	var found bool
 
@@ -278,10 +279,10 @@ func CountAlnumDistribution(text string) (chars []rune, values []int) {
 	return
 }
 
-/*
-StringCountTokens given a text, count how many tokens inside of it and return
-sum of all.
-*/
+//
+// StringCountTokens given a text, count how many tokens inside of it and
+// return sum of all.
+//
 func StringCountTokens(text string, tokens []string, sensitive bool) (
 	cnt int,
 ) {
@@ -303,10 +304,10 @@ func StringCountTokens(text string, tokens []string, sensitive bool) (
 	return
 }
 
-/*
-StringFrequenciesOf return frequencies of tokens by counting each occurence
-of token and divide it with total words in text.
-*/
+//
+// StringFrequenciesOf return frequencies of tokens by counting each occurence
+// of token and divide it with total words in text.
+//
 func StringFrequenciesOf(text string, tokens []string, sensitive bool) (
 	freq float64,
 ) {

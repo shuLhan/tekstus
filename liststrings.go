@@ -8,20 +8,20 @@ import (
 	"strings"
 )
 
-/*
-ListStrings is for working with list of set of string.
-Each elemen of slice is in the form of [["a"],["b","c"],...]
-*/
+//
+// ListStrings is for working with list of set of string.
+// Each elemen of slice is in the form of [["a"],["b","c"],...]
+//
 type ListStrings []Strings
 
-/*
-IsEqual compare two list of slice of string without regard to
-their order.
-
-	{{"a"},{"b"}} == {{"b"},{"a"}} is true.
-
-Return true if both contain the same list, false otherwise.
-*/
+//
+// IsEqual compare two list of slice of string without regard to
+// their order.
+//
+//	{{"a"},{"b"}} == {{"b"},{"a"}} is true.
+//
+// Return true if both contain the same list, false otherwise.
+//
 func (lss *ListStrings) IsEqual(b ListStrings) bool {
 	lsslen := len(*lss)
 
@@ -48,10 +48,10 @@ func (lss *ListStrings) IsEqual(b ListStrings) bool {
 	return true
 }
 
-/*
-Join list of slice of string using `lsep` as separator between list items and
-`ssep` for element in each slice.
-*/
+//
+// Join list of slice of string using `lsep` as separator between list items
+// and `ssep` for element in each slice.
+//
 func (lss *ListStrings) Join(lsep string, ssep string) (s string) {
 	lsslen := len(*lss) - 1
 

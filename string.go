@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,10 +9,10 @@ import (
 	"unicode"
 )
 
-/*
-StringTrimNonAlnum remove non alpha-numeric character at the beginning and end
-for `text`.
-*/
+//
+// StringTrimNonAlnum remove non alpha-numeric character at the beginning and
+// end for `text`.
+//
 func StringTrimNonAlnum(text string) string {
 	r := []rune(text)
 	rlen := len(r)
@@ -46,17 +46,17 @@ func StringTrimNonAlnum(text string) string {
 	return string(r)
 }
 
-/*
-StringSplitWords given a text, return all words in text.
-
-Definition of word is any sequence of character which have length equal or
-greater than one and separated by space.
-
-If cleanit is true remove any non-alphanumeric in the start and the end of
-each words.
-
-If uniq is true remove duplicate words.
-*/
+//
+// StringSplitWords given a text, return all words in text.
+//
+// Definition of word is any sequence of character which have length equal or
+// greater than one and separated by space.
+//
+// If cleanit is true remove any non-alphanumeric in the start and the end of
+// each words.
+//
+// If uniq is true remove duplicate words.
+//
 func StringSplitWords(text string, cleanit bool, uniq bool) (words []string) {
 	words = strings.Fields(text)
 
@@ -78,11 +78,11 @@ func StringSplitWords(text string, cleanit bool, uniq bool) (words []string) {
 	return WordsUniq(words, false)
 }
 
-/*
-StringRemoveURI remove link (http, https, ftp, ftps) from text and return the
-new text.
-This function assume that space in URI is using '%20'.
-*/
+//
+// StringRemoveURI remove link (http, https, ftp, ftps) from text and return
+// the new text.
+// This function assume that space in URI is using '%20'.
+//
 func StringRemoveURI(text string) string {
 	if len(text) <= 0 {
 		return ""
@@ -121,10 +121,10 @@ func StringRemoveURI(text string) string {
 	return string(ctext)
 }
 
-/*
-StringMergeSpaces replace two or more spaces with single space. If withline is
-true it also replace two or more new lines with single new-line.
-*/
+//
+// StringMergeSpaces replace two or more spaces with single space. If withline
+// is true it also replace two or more new lines with single new-line.
+//
 func StringMergeSpaces(text string, withline bool) string {
 	var out []rune
 	var isspace bool
@@ -158,19 +158,19 @@ func StringMergeSpaces(text string, withline bool) string {
 	return string(out)
 }
 
-/*
-StringRemoveWikiMarkup remove wiki markup, including,
-- [[Category: ... ]]
-- [[:Category: ... ]]
-- [[File: ... ]]
-- [[Help: ... ]]
-- [[Image: ... ]]
-- [[Special: ... ]]
-- [[Wikipedia: ... ]]
-- {{DEFAULTSORT: ... }}
-- {{Template: ... }}
-- <ref ... />
-*/
+//
+// StringRemoveWikiMarkup remove wiki markup, including,
+// - [[Category: ... ]]
+// - [[:Category: ... ]]
+// - [[File: ... ]]
+// - [[Help: ... ]]
+// - [[Image: ... ]]
+// - [[Special: ... ]]
+// - [[Wikipedia: ... ]]
+// - {{DEFAULTSORT: ... }}
+// - {{Template: ... }}
+// - <ref ... />
+//
 func StringRemoveWikiMarkup(text string) string {
 	ctext := []rune(text)
 

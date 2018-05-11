@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -9,9 +9,9 @@ import (
 	"github.com/shuLhan/tekstus"
 )
 
-/*
-LineChange represent one change in text.
-*/
+//
+// LineChange represent one change in text.
+//
 type LineChange struct {
 	Old  tekstus.Line
 	New  tekstus.Line
@@ -19,16 +19,16 @@ type LineChange struct {
 	Dels tekstus.Chunks
 }
 
-/*
-NewLineChange create a pointer to new LineChange object.
-*/
+//
+// NewLineChange create a pointer to new LineChange object.
+//
 func NewLineChange(old, new tekstus.Line) *LineChange {
 	return &LineChange{old, new, tekstus.Chunks{}, tekstus.Chunks{}}
 }
 
-/*
-String return formatted content of LineChange.
-*/
+//
+// String return formatted content of LineChange.
+//
 func (change LineChange) String() string {
 	return fmt.Sprintf("LineChange: {\n"+
 		" Old  : %v\n"+

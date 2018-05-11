@@ -8,10 +8,10 @@ import (
 	"unicode"
 )
 
-/*
-RunesContain return true if character `c` is in slice of rune `s` and index of
-character in `s`.
-*/
+//
+// RunesContain return true if character `c` is in slice of rune `s` and index
+// of character in `s`.
+//
 func RunesContain(s []rune, c rune) (bool, int) {
 	for x, v := range s {
 		if v == c {
@@ -21,16 +21,16 @@ func RunesContain(s []rune, c rune) (bool, int) {
 	return false, -1
 }
 
-/*
-RunesDiff return the difference between two slice of rune.
-
-For example, input are
-
-	l: [a b c d]
-	r: [b c]
-
-and the output will be `[a d]`
-*/
+//
+// RunesDiff return the difference between two slice of rune.
+//
+// For example, input are
+//
+//	l: [a b c d]
+//	r: [b c]
+//
+// and the output will be `[a d]`
+//
 func RunesDiff(l []rune, r []rune) (diff []rune) {
 	var found bool
 	dupDiff := []rune{}
@@ -69,12 +69,12 @@ func RunesDiff(l []rune, r []rune) (diff []rune) {
 	return
 }
 
-/*
-RunesFind will search token in text starting from index `startAt` and
-return the matching index.
-
-If no token is found it will return -1.
-*/
+//
+// RunesFind will search token in text starting from index `startAt` and
+// return the matching index.
+//
+// If no token is found it will return -1.
+//
 func RunesFind(line, token []rune, startAt int) (at int) {
 	y := 0
 	tokenlen := len(token)
@@ -106,9 +106,9 @@ func RunesFind(line, token []rune, startAt int) (at int) {
 	return
 }
 
-/*
-RunesFindSpaces in line, return -1 if not found.
-*/
+//
+// RunesFindSpaces in line, return -1 if not found.
+//
 func RunesFindSpaces(line []rune, startAt int) (idx int) {
 	lineLen := len(line)
 
@@ -120,20 +120,21 @@ func RunesFindSpaces(line []rune, startAt int) (idx int) {
 	return -1
 }
 
-/*
-RunesRemoveUntil given a line, remove all characters inside it, starting
-from `leftcap` until the `rightcap` and return cutted line and changed to true.
-
-If no `leftcap` or `rightcap` is found, the line will unchanged, and changed
-will be false.
-
-Example,
-
-	line    : "[[ ABC ]] DEF"
-	leftcap : "[["
-	rightcap: "]]"
-	return  : "  DEF"
-*/
+//
+// RunesRemoveUntil given a line, remove all characters inside it, starting
+// from `leftcap` until the `rightcap` and return cutted line and changed to
+// true.
+//
+// If no `leftcap` or `rightcap` is found, the line will unchanged, and
+// changed will be false.
+//
+// Example,
+//
+//	line    : "[[ ABC ]] DEF"
+//	leftcap : "[["
+//	rightcap: "]]"
+//	return  : "  DEF"
+//
 func RunesRemoveUntil(line, leftcap, rightcap []rune) (
 	newline []rune,
 	changed bool,

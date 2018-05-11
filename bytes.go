@@ -1,13 +1,13 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Shulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 package tekstus
 
-/*
-BytesFind return the first index of matched token in line.
-If not found it will return -1.
-*/
+//
+// BytesFind return the first index of matched token in line.
+// If not found it will return -1.
+//
 func BytesFind(line, token []byte, startat int) (at int) {
 	y := 0
 	tokenlen := len(token)
@@ -39,10 +39,10 @@ func BytesFind(line, token []byte, startat int) (at int) {
 	return
 }
 
-/*
-BytesMatchForward return true if `line` at index `p` match with `token`,
-otherwise return false.
-*/
+//
+// BytesMatchForward return true if `line` at index `p` match with `token`,
+// otherwise return false.
+//
 func BytesMatchForward(line, token []byte, p int) bool {
 	linelen := len(line)
 	tokenlen := len(token)
@@ -60,11 +60,11 @@ func BytesMatchForward(line, token []byte, p int) bool {
 	return true
 }
 
-/*
-BytesEncapsulate will find `token` in `line` and capsulating it with bytes
-from `leftcap` and `rightcap`.
-If no token is found, it will return the same line with false status.
-*/
+//
+// BytesEncapsulate will find `token` in `line` and capsulating it with bytes
+// from `leftcap` and `rightcap`.
+// If no token is found, it will return the same line with false status.
+//
 func BytesEncapsulate(token, line, leftcap, rightcap []byte) (
 	newline []byte,
 	changed bool,
@@ -95,20 +95,20 @@ func BytesEncapsulate(token, line, leftcap, rightcap []byte) (
 	return
 }
 
-/*
-BytesRemoveUntil given a line, remove all bytes inside it, starting from
-`leftcap` until the `rightcap` and return cutted line and changed to true.
-
-If no `leftcap` or `rightcap` is found, the line will unchanged, and changed
-will be false.
-
-Example,
-
-	line    : "[[ ABC ]] DEF"
-	leftcap : "[["
-	rightcap: "]]"
-	return  : "  DEF"
-*/
+//
+// BytesRemoveUntil given a line, remove all bytes inside it, starting from
+// `leftcap` until the `rightcap` and return cutted line and changed to true.
+//
+// If no `leftcap` or `rightcap` is found, the line will unchanged, and
+// changed will be false.
+//
+// Example,
+//
+//	line    : "[[ ABC ]] DEF"
+//	leftcap : "[["
+//	rightcap: "]]"
+//	return  : "  DEF"
+//
 func BytesRemoveUntil(line, leftcap, rightcap []byte) (
 	newline []byte,
 	changed bool,
@@ -130,15 +130,15 @@ func BytesRemoveUntil(line, leftcap, rightcap []byte) (
 	return
 }
 
-/*
-BytesSkipUntil skip all bytes until matched token is found.
-
-If `checkEsc` is true, token that is prefixed with escaped character
-'\' will be considered as non-match token.
-
-Return index of line with matched token or false if line end before
-finding the token.
-*/
+//
+// BytesSkipUntil skip all bytes until matched token is found.
+//
+// If `checkEsc` is true, token that is prefixed with escaped character
+// '\' will be considered as non-match token.
+//
+// Return index of line with matched token or false if line end before
+// finding the token.
+//
 func BytesSkipUntil(line, token []byte, startAt int, checkEsc bool) (
 	p int,
 	found bool,
@@ -188,15 +188,15 @@ func BytesSkipUntil(line, token []byte, startAt int, checkEsc bool) (
 	return p, found
 }
 
-/*
-BytesCutUntil we found token.
-
-If `checkEsc` is true, token that is prefixed with escaped character
-'\' will be considered as non-match token.
-
-Return all bytes before token and positition of byte _after_ token,
-or false if token is not found.
-*/
+//
+// BytesCutUntil we found token.
+//
+// If `checkEsc` is true, token that is prefixed with escaped character
+// '\' will be considered as non-match token.
+//
+// Return all bytes before token and positition of byte _after_ token,
+// or false if token is not found.
+//
 func BytesCutUntil(line, token []byte, startAt int, checkEsc bool) (
 	v []byte,
 	p int,
