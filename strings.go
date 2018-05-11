@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -164,7 +164,7 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 	seed = append(seed[:0], seed[1:]...)
 
 	if DEBUG >= 1 {
-		fmt.Printf("[tekstus] %s el: %s, seed:", createIndent(n), el, seed)
+		fmt.Printf("[tekstus] %s el: %s, seed: %s", createIndent(n), el, seed)
 	}
 
 	// generate child list
@@ -185,7 +185,7 @@ func (ss *Strings) Partitioning(k int) (table TableStrings) {
 	genTable = seed.Partitioning(k - 1)
 
 	if DEBUG >= 1 {
-		fmt.Printf("[tesktus] %s genTable append :", createIndent(n), genTable)
+		fmt.Printf("[tesktus] %s genTable append: %s", createIndent(n), genTable)
 	}
 
 	for _, lss := range genTable {

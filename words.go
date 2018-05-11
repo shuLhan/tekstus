@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -17,8 +17,7 @@ Return the list of unique words.
 func WordsUniq(words []string, sensitive bool) (uniques []string) {
 	// Remove duplicate values.
 	wordslen := len(words)
-	xcmp := ""
-	ycmp := ""
+	var xcmp, ycmp string
 
 	for x, v := range words {
 		if v == "" {

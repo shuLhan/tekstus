@@ -1,4 +1,4 @@
-// Copyright 2016 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
+// Copyright 2016-2018 Mhd Sulhan <ms@kilabit.info>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -256,7 +256,7 @@ Example, given a text "abbcccddddeeeee", it will return [a b c d e] and
 [1 2 3 4 5].
 */
 func CountAlnumDistribution(text string) (chars []rune, values []int) {
-	var found = false
+	var found bool
 
 	for _, v := range text {
 		if !(unicode.IsDigit(v) || unicode.IsLetter(v)) {
