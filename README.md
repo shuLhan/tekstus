@@ -1,7 +1,12 @@
-[![GoDoc](https://godoc.org/github.com/shuLhan/tekstus?status.svg)]
-(https://godoc.org/github.com/shuLhan/tekstus)
-[![Go Report Card](https://goreportcard.com/badge/github.com/shuLhan/tekstus)]
-(https://goreportcard.com/report/github.com/shuLhan/tekstus)
+[![GoDoc](https://godoc.org/github.com/shuLhan/tekstus?status.svg)](https://godoc.org/github.com/shuLhan/tekstus)
+[![Go Report Card](https://goreportcard.com/badge/github.com/shuLhan/tekstus)](https://goreportcard.com/report/github.com/shuLhan/tekstus)
+
+    This package is deprecate.  See
+    https://github.com/shuLhan/share/lib/bytes,
+    https://github.com/shuLhan/share/lib/strings,
+    https://github.com/shuLhan/share/lib/text,
+    https://github.com/shuLhan/share/lib/text/diff
+    for latest implementation.
 
 _textus_ is a latin word for _textual_, meaning of or relating to a text or
 texts.
@@ -14,11 +19,11 @@ more related to LaTeX.
 
 # Features
 
-* Comparing two file, diff-ing, with line level diff or words level.
-* Working with set of string,
-  * comparing two set of string without regard to their order,
-  * partitioning a set of string or strings,
-  * joining string into each element in set of string.
+- Comparing two file, diff-ing, with line level diff or words level.
+- Working with set of string,
+  - comparing two set of string without regard to their order,
+  - partitioning a set of string or strings,
+  - joining string into each element in set of string.
 
 See [documentation](https://godoc.org/github.com/shuLhan/tekstus) for more
 information.
